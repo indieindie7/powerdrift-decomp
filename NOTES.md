@@ -101,3 +101,25 @@ Research/modding only, non-commercial. No leaked source. User goal (10-13): "let
 - Pass 3a (10-13): suby provisional review applied (ghidra/hand_suby_rev.txt, 43 lines: 23 renamed, 0 still provisional). hs_State* = case bodies of hs_StateMachine / hs_StateDispatchB (ce09c 4 = attract ranking, 0x1a = score check, 0x1b = name entry). hs_MatchInitialsMessage: an initials list (staff-like initials) sets ce878 = message index for hs_DrawMessageText; the name-entry tail also replaces one rude word. Main review pending (hand_main_rev.txt).
 - Pass 3b (10-13): main provisional review applied (hand_main_rev.txt: 27 renamed, 9 bogus removed: 0x33000, 0x336c2-0x336ca, 0x33702, 0x33724, 0x373ba; added cab_ForceFeedbackOutput 0x33742, spr_CarStatusOverlayInit 0x37040; traps renamed sys_TrapEnableIrq 0x33078 / sys_TrapDisableIrq 0x3307e). cab "MotorCopy*" entries are byte pattern tables written to cff2c; real dispatcher 0x33532 (table 0x3354a on cff30&3). game_AddScoreBcd adds cff68 into score cff60, then raises the high score cff64. car_FrameTaskScripted 0x35d54 path: player car under script when cea38 > 4 and cea2b bit0 clear (meaning unknown).
 - FINAL 10-13: main 199 fn, suby 497, subx 25 = 721 functions, 0 FUN_, 0 provisional. Some named functions are mid-body fragments (comments say so). Next if wanted: public repo (names + notes + tools only, no dumps/data).
+
+## Public repo (10-13)
+- PUBLISHED github.com/indieindie7/powerdrift-decomp, first commit 85ea466 (notes, hand/bogus lists, scripts, tools; no ROM data; initials list removed from comments).
+
+## Saturn Sega Ages port (10-13, recon)
+- Disc: Downloads/Power-Drift_SEGA-Saturn_JA.zip -> saturn/zip (10 tracks), data track extracted with Scorcher tools/isoextract.py
+  (2352) -> saturn/cd (45 files). IP.BIN: GS-9181 V1.001 1998-01-22, 1st read file `00000` (899008 bytes) at 0x06004000 (SH-2).
+- Files: CRS_A..E.DAT + CRS_N.DAT (courses), ADV_*.DAT (10 files), CAR, LIN, MEN, SEL, TTL, END, LOGO (+ LOGO_0/1.BMP), SOUND0-6.DAT, NO00-08.CDA (CD audio).
+- CRS_x.DAT header = big-endian long offsets to sub-blocks (CRS_A: 0x18, 0x181dc, 0x34bcc, 0x4c924, 0x68948, 0x88e74, then 0x180028?).
+- **The arcade circuits are byte-identical** in the Saturn files (tools/satfind.py main.bin saturn/cd): 2048 x (x,y,z) BE16 points,
+  each at a CRS sub-block + 0x18 (e.g. CRS_A@0x30 = arcade 0x4232, CRS_A@0x181f4 = 0x22eca). 0x10f36 (bonus) is in CRS_A/C/E/N,
+  0x2fdbe (bonus) in CRS_B/D/N. ADV_xx.DAT hold one circuit each at +0x18 (ADV_B1 = 0x40000 ...) = probably the attract/demo laps.
+- Not on the Saturn disc: arcade circuits 0x43000, 0x46000, 0x5b000, 0x64000, 0x67000, 0x76000 (the unused/demo/test ones).
+
+## Globals + types pass (10-13, user: "please finish power drift")
+- tools/pdglobs.py + pdglobmerge.py -> ghidra/glist_sharedA/B.txt (284 shared addrs 0x0c0000-0x0cffff) + glist_work_{main,subx,suby}.txt (4/11/69).
+  Two Sonnet agents (prompt ghidra/scripts/gl_prompt.txt) -> gn_*.txt. Fix: 0x0cea0c = sh_dip_setting_hi2 (cff30 >> 6, index into 0x3d800), 0x0cff30 = sh_dip_switches.
+- ghidra/globals_<cpu>.txt (shared + that CPU's work RAM: main 288, subx 295, suby 353 labels) applied with Amok ApplyGlobals.java, 0 problems.
+  PROVISIONAL: many names are plain <area>_<addr> where the evidence was thin.
+- Backup ghidra/PowerDrift.rep.bak_types. CommitParams apply: main 171, subx 23 (2 failed), suby 411. ExportSigs -> ghidra/types_<cpu>.txt (199/25/497 fn, 0 FUN_).
+- Re-dump main: 0 DAT_000c refs left (1541 sh_ uses).
+- suby calls into 0x1b5ec and 0x1beb2 are secondary entry points inside obj_InitCarSelect 0x1b5e2 and its neighbour (code shared by fall-through); left as is.

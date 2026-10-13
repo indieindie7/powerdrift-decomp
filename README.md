@@ -22,6 +22,8 @@ per-track blocks: the AI driving script, trackside object runs and the trigger l
 |---|---|
 | `NOTES.md` | the full working log: ROM layout, memory map, circuit format, coverage passes, every naming round |
 | `ghidra/hand_<cpu>*.txt` | hand-named functions (`0x<addr> <name> [comment]`), applied in file order; `_rev` files are the final review |
+| `ghidra/globals_<cpu>.txt` | RAM labels: shared RAM `sh_` (0x0c0000, seen by all three CPUs) + that CPU's work RAM `g_`; **provisional**, many names are plain area names |
+| `ghidra/types_<cpu>.txt` | committed function signatures (from the decompiler) |
 | `ghidra/bogus_<cpu>*.txt` | false function starts that were deleted (data decoded as code) |
 | `ghidra/scripts/` | headless Ghidra scripts: memory map and vectors (`PdMap`, `PdSetup`), names (`PdNames`), deletions (`PdDelete`), forced code starts (`PdForce`), coverage, pointer scan, data refs, decompile dump |
 | `ghidra/pdrun.sh` | headless runner (set `GHIDRA_HEADLESS` and `PD_GHIDRA`) |
@@ -42,3 +44,6 @@ output and no Ghidra project database (which embeds the binaries). You need your
    `PdMap.java main|subx|suby` (memory map from MAME `segaybd.cpp`).
 3. Per program, run `PdDelete.java` with the `bogus_` lists and `PdNames.java` with each `hand_` file in this
    order: `hand_<cpu>.txt`, `2`, `3`, `_a`, `_b`, then `_rev` last (later files rename earlier entries).
+4. Apply `globals_<cpu>.txt` with amok-decomp's `ApplyGlobals.java`, then its `CommitParams.java apply`.
+
+The Saturn Sega Ages port (1998) stores the same circuits byte for byte; see `NOTES.md` "Saturn Sega Ages port" and `tools/satfind.py`.
