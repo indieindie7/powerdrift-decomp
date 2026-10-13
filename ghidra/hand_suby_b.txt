@@ -1,0 +1,272 @@
+0x00011ec8 obj_UpdateSteerSprite picks sprite 0x4a/0x4b by sign of ceb4a, queues B sprite
+0x00011ef0 obj_InitSteerIndicator type 0x80, handler 0x11f10
+0x00011f10 obj_UpdateSteerIndicator flip flag by steering sign, frame table
+0x000121d2 obj_InitAnimSprite type 0x84, handler 0x121f6
+0x000121f6 obj_UpdateAnimSprite timer ce312, frame tables 0x12298/0x122b0
+0x000128d4 obj_ActivateAllObjects sets 0x80 active flag on object list from ce618
+0x00012e72 snd_QueueCommand ring buffer at cff88, 64 entries
+0x00012f02 txt_DrawNumber3 3 chars into text list ffff7e00
+0x00012f66 txt_DrawChar one char into text list
+0x00012fa2 txt_DrawCharHexAdjust one char with hex-digit adjust
+0x00012fe8 txt_DrawNumber2 2 digit number into text list
+0x00013046 txt_DrawNumber4 4 digit number into text list
+0x000130a4 spr_QueueObject push B sprite entry to ffff8000 list
+0x000131bc spr_CopyListToBRam ffff8600 -> 0x188000, 128 entries
+0x00013352 pal_FillRotateLinesClamped 0x1901a0 fill from fffff900, ce70c-0x5e clamp
+0x0001339a pal_FillRotateLines fills rotate-line palette 0x1901a0 from fffff900
+0x000133fc rot_SetupMatrix angle table lookup, 0x1807e0 regs, 0x180010 rows
+0x0001351c nop_Return empty
+0x0001351e test_DrawServiceMenu service/test mode text screen, DIP toggles
+0x0001402e thunk_test_ToggleBit0 jump-table thunk
+0x00014032 thunk_test_ToggleBit1 jump-table thunk
+0x00014036 thunk_test_ToggleBit2 jump-table thunk
+0x0001403a thunk_test_ToggleBit3 jump-table thunk
+0x0001403e thunk_test_ToggleBit4 jump-table thunk
+0x00014042 thunk_test_CycleDifficulty jump-table thunk
+0x00014046 thunk_test_ToggleBit6 jump-table thunk
+0x00014050 test_ClearMenuBit80 clears bit 0x80 of menu flags
+0x0001405a test_ToggleBit0 toggle DIP option bit 0
+0x00014064 test_ToggleBit1 toggle DIP option bit 1
+0x00014076 test_ToggleBit2 toggle DIP option bit 2
+0x00014080 test_ToggleBit3 toggle DIP option bit 3
+0x0001408a test_ToggleBit4 toggle DIP option bit 4
+0x00014094 test_CycleDifficulty cycle difficulty option
+0x000140a8 test_ToggleBit6 toggle DIP option bit 6
+0x00014186 pal_CopyBank 192000 bank to fffff900 area
+0x000141e6 pal_FadeApplyStep apply one fade step per 4-bit component
+0x00014252 pal_FadeToBlackStep fade palette toward black
+0x00014336 pal_FadeApplyStep2 second fade apply step variant
+0x000143e4 pal_FadeToWhiteStep fade palette toward white
+0x00014466 pal_FadeUpHelper fade-up helper
+0x0001455a hud_DrawTitleSprites title screen sprites
+0x00014a26 hud_DrawTwoSprites two sprite pair draw
+0x00014b4c hud_DrawExtraStage EXTRA / STAGE text sprites
+0x00014d9a thunk_in_DebounceButtonA jump-table thunk
+0x00014d9e thunk_in_DebounceButtonB jump-table thunk
+0x00014da2 thunk_in_DebounceButtonC jump-table thunk
+0x00014da6 thunk_in_DebounceButtonD jump-table thunk
+0x00014dae in_DebounceButtonA button debouncer on cff29/cff2b: f7 mask, count 8
+0x00014dbe in_DebounceButtonB button debouncer on cff29/cff2b: ef mask, count 5
+0x00014dce in_DebounceButtonC button debouncer on cff29/cff2b: mask, count 7
+0x00014dde in_DebounceButtonD button debouncer on cff29/cff2b: mask, count 8
+0x00014e2c in_ClearDebounce clears debounce state
+0x00014e6a thunk_test_Screen0 test-mode screen jump table entry
+0x00014e6e thunk_test_Screen1 test-mode screen jump table entry
+0x00014e72 thunk_test_Screen2 test-mode screen jump table entry
+0x00014e76 thunk_test_Screen3 test-mode screen jump table entry
+0x00014e7a thunk_test_Screen4 test-mode screen jump table entry
+0x00014e7e thunk_test_Screen5 test-mode screen jump table entry
+0x00014e82 thunk_test_Screen6 test-mode screen jump table entry
+0x00014e86 thunk_test_Screen7 test-mode screen jump table entry
+0x00014e8a thunk_test_Screen8 test-mode screen jump table entry
+0x00014e8e thunk_test_Screen9 test-mode screen jump table entry
+0x00014e92 thunk_test_Screen10 test-mode screen jump table entry
+0x00014f16 test_MemoryCheck RAM check screen
+0x00014fec bogus_00014fec false function in data
+0x000150c6 test_DrawAnalogScreenA analog input test screen
+0x00015272 test_DrawAnalogScreenB analog input test screen
+0x000153ec test_DrawAnalogScreenC analog input test screen
+0x00015498 test_DrawInputScreen provisional: input test screen
+0x000155ba test_PaletteScreen palette test screen
+0x0001570e test_DrawScreenTail provisional: test screen tail
+0x00015b50 test_DrawScreenPart provisional: test screen part
+0x00015d50 test_DrawScreenPart2 provisional: test screen part
+0x00015d82 test_ConfirmScreen confirm/exit screen
+0x00015ea6 sys_MainLoop relocated main loop, handler dispatch via +0x10/+0x14
+0x00015ef2 in_AnalogDeadzoneCount analog deadzone counter
+0x00015f7c test_DrawCursor test menu cursor
+0x000160ac math_Divide32by16Loop 32 by 16 divide loop
+0x00016112 math_DivideReturn provisional: divide helper tail
+0x0001615a math_SplitDigits10000 split value into decimal digits
+0x0001619c snd_ClearTables clears sound tables
+0x00016344 hs_StateMachine high-score state machine, ce09c states 3/4/0x1a/0x1b
+0x0001638a thunk_hs_State1638a high-score jump-table thunk
+0x0001638e thunk_hs_State1638e high-score jump-table thunk
+0x00016392 thunk_hs_State16392 high-score jump-table thunk
+0x0001639a hs_State1639a provisional: high-score state handler
+0x000163a8 hs_State163a8 provisional: high-score state handler
+0x000163ae hs_State163ae provisional: high-score state handler
+0x000163b4 hs_State163b4 provisional: high-score state handler
+0x000163d4 hs_State163d4 provisional: high-score state handler
+0x00016416 thunk_hs_State16416 high-score jump-table thunk
+0x0001641a thunk_hs_State1641a high-score jump-table thunk
+0x0001641e thunk_hs_State1641e high-score jump-table thunk
+0x00016422 thunk_hs_State16422 high-score jump-table thunk
+0x00016426 thunk_hs_State16426 high-score jump-table thunk
+0x0001642a thunk_hs_State1642a high-score jump-table thunk
+0x0001642e thunk_hs_State1642e high-score jump-table thunk
+0x00016436 hs_State16436 provisional: high-score state handler
+0x00016474 hs_State16474 provisional: high-score state handler
+0x000164d0 hs_State164d0 provisional: high-score state handler
+0x00016514 hs_State16514 provisional: high-score state handler
+0x0001651c hs_State1651c provisional: high-score state handler
+0x00016528 hs_State16528 provisional: high-score state handler
+0x0001657a hs_State1657a provisional: high-score state handler
+0x000165be nop_ReturnHs empty
+0x000165c0 hs_State165c0 provisional: high-score state handler
+0x00016720 hs_DrawRankEntry draw ranking row
+0x000168c8 hs_DrawMessageText draw message text
+0x00016ca8 ev_PushQueueEntry push event queue entry
+0x00016d84 hs_NameEntryInput name entry input
+0x00016f12 hs_DrawMessageTextNoCheck draw message text without check
+0x00017294 obj_ClearChain80 clear 0x80 flag along object chain
+0x000172c0 obj_SetChain80 set 0x80 flag along object chain
+0x00017634 hs_UpdateWrapper high-score update wrapper
+0x0001773a in_WriteChar write input char
+0x00017788 in_AnalogDirection analog direction
+0x000177be timer_CountDownA countdown timer
+0x000177cc timer_CountDownB countdown timer
+0x000177fe stats_UpdateWithCrc CRC poly 0x8810 over stats block cfd00, backup cfd80
+0x00017898 pal_LoadScreen load screen palette
+0x00017a98 spr_CopySpriteList copy sprite list
+0x00017ad0 spr_WritePair write sprite pair
+0x00017b00 spr_WriteDigitsDec4 write 4 decimal digit sprites
+0x00017b38 spr_WriteDigitsDec8 write 8 decimal digit sprites
+0x00017b70 spr_WriteDigitsHex write hex digit sprites
+0x00017bae spr_WriteString write string sprites
+0x00017be2 spr_WriteStringB write string sprites variant
+0x00017c40 nop_Return2 empty
+0x00017c42 thunk_scene_Step0 scene jump-table thunk
+0x00017c46 thunk_scene_Step1 scene jump-table thunk
+0x00017c4a thunk_scene_Step2 scene jump-table thunk
+0x00017c4e thunk_scene_Step3 scene jump-table thunk
+0x00017c52 thunk_scene_Step4 scene jump-table thunk
+0x00017c56 thunk_scene_Step5 scene jump-table thunk
+0x00017c5a thunk_scene_Step6 scene jump-table thunk
+0x00017c5e thunk_scene_Step7 scene jump-table thunk
+0x00017c62 thunk_scene_Step8 scene jump-table thunk
+0x00017c82 scene_SetupIntro intro scene setup
+0x00017cc2 scene_IntroInit intro init
+0x00017d84 scene_IntroFadeIn intro fade in
+0x00017de8 scene_IntroWait intro wait
+0x00017e1a scene_IntroEnd intro end
+0x00017e30 obj_UpdateRotatingSprite uses 0x1e4e/0x244e tables with multiplier
+0x0001824c obj_InitType83A type 0x83 object init
+0x00018294 obj_InitType83B type 0x83 object init
+0x000182dc obj_InitType83C type 0x83 object init
+0x00018368 obj_InitType83D type 0x83 object init
+0x000183d8 scene_SetupA scene setup
+0x00018424 scene_SetupB scene setup
+0x00018470 scene_SetupC scene setup
+0x000184c4 scene_EndingInit ending init
+0x00018540 scene_EndingUpdate ending update
+0x0001861a scene_FireworksUpdate fireworks update
+0x00018804 bogus_00018804 false function in data
+0x00018b6c obj_ResetAll reset all objects
+0x00018bc4 nop_Return3 empty
+0x00018bc6 obj_InitFromTable init objects from table
+0x00018cc0 obj_UpdateEndingA ending object update
+0x00018d92 obj_UpdateEndingB ending object update
+0x00018f0c obj_UpdateRowFramesA row frame update
+0x00018f76 obj_UpdateRowFramesB row frame update
+0x0001911e ev_PushQueueEntry2 push event queue entry
+0x00019152 pal_BlockCopy palette block copy
+0x00019180 pal_BlockCopyLarge large palette block copy
+0x00019206 pal_DmaStep8 palette copy 8 steps
+0x0001926c pal_FadeCopyStep32 palette fade copy, 32 steps
+0x0001936e pal_FadeCopyStep32b palette fade copy variant of 0x1926c
+0x0001943e pal_FadeTick tick counter ffffaffc vs ffffb008, calls blend step
+0x00019498 pal_BlendStepRGB interpolates 30 steps of 4-bit RGB to ffff table
+0x00019542 test_MotorTestDispatch switch on cff30&3, HANDLE MOTOR TEST text
+0x0001955a thunk_test_MotorMoveStep jump-table thunk
+0x0001955e thunk_test_DrawHandleMotorTest jump-table thunk
+0x00019562 thunk_nop_Return4 jump-table thunk
+0x0001956c test_DrawHandleMotorTest draws HANDLE MOTOR TEST text
+0x000195ee nop_Return4 empty
+0x000195f0 test_MotorMoveStep dispatch via cfe82 table
+0x000195fe nop_Return5 empty
+0x00019600 thunk_test_MotorSelfTestStatus jump-table thunk
+0x00019604 thunk_test_DrawMotorPos jump-table thunk
+0x00019608 thunk_test_DrawMotorMove jump-table thunk
+0x00019610 test_DrawMotorMove MOVE RIGHT/LEFT/STOP by ce0ce
+0x00019766 test_DrawMotorPos motor position number, ce0d2/0x19
+0x00019972 test_MotorSelfTestStatus MOTOR SELF TEST END/NOW/TROUBLE, SAFETY SENSOR warning
+0x00019b26 test_DrawMotorSwitches draw 5 switch states from cff2e
+0x00019b32 test_DrawMotorSwitchesChecked range check then switch states
+0x00019bdc thunk_test_DrawMotorTestMenu jump-table thunk
+0x00019be0 thunk_test_DrawHandleMotorTest2 jump-table thunk
+0x00019be4 thunk_nop_Return4b jump-table thunk
+0x00019bee test_DrawHandleMotorTest2 HANDLE MOTOR TEST, clears cff2f bit 2
+0x00019c6e test_DrawMotorTestMenu MOTOR TEST MENU text list
+0x00019e12 nop_Return6 empty
+0x00019e14 thunk_test_DrawMotorLabelC jump-table thunk
+0x00019e18 thunk_test_DrawMotorLabelB jump-table thunk
+0x00019e1c thunk_test_DrawMotorLabelA jump-table thunk
+0x00019e24 test_DrawMotorLabelA motor label text
+0x00019e6e test_DrawMotorLabelB motor label text
+0x00019eb8 test_DrawMotorLabelC motor label text
+0x00019fd6 nop_Return7 empty
+0x00019fd8 thunk_test_DrawMotorMsg1a018 jump-table thunk
+0x00019fdc thunk_test_DrawMotorMsg1a064 jump-table thunk
+0x00019fe0 thunk_test_DrawMotorMsg1a0b0 jump-table thunk
+0x00019fe4 thunk_test_DrawMotorMsg1a0fc jump-table thunk
+0x00019fe8 thunk_test_DrawMotorMsg1a148 jump-table thunk
+0x00019fec thunk_test_DrawMotorMsg1a194 jump-table thunk
+0x00019ff0 thunk_test_DrawMotorMsg1a1e0 jump-table thunk
+0x00019ff4 thunk_test_DrawMotorMsg1a22c jump-table thunk
+0x00019ff8 thunk_test_DrawMotorMsg1a278 jump-table thunk
+0x00019ffc test_DrawLimitSwError LIMIT SW ADJ ERROR text
+0x0001a000 test_DrawLimitSwErrorB LIMIT SW ADJ ERROR text duplicate
+0x0001a018 test_DrawMotorMsg1a018 warning/motor message text
+0x0001a064 test_DrawMotorMsg1a064 warning/motor message text
+0x0001a0b0 test_DrawMotorMsg1a0b0 warning/motor message text
+0x0001a0fc test_DrawMotorMsg1a0fc warning/motor message text
+0x0001a148 test_DrawMotorMsg1a148 warning/motor message text
+0x0001a194 test_DrawVolumeMsg1a194 volume trouble / adjust message text
+0x0001a1e0 test_DrawVolumeMsg1a1e0 volume trouble / adjust message text
+0x0001a22c test_DrawVolumeMsg1a22c volume trouble / adjust message text
+0x0001a278 test_DrawLimitSwAdj LIMIT SW ADJ ERROR + VIBRATION MOTOR text
+0x0001a758 test_DrawSwitchLabel switch label text
+0x0001a9ee test_DrawVibMotorNorm V.M NORM text
+0x0001aa38 test_DrawVibMotorTrouble V.M TROUBLE text
+0x0001abaa test_UpdateMotorSwitches dispatch per cff2e bits
+0x0001b324 obj_UpdateFadeAnim timer +0x16, frame table 0x1b364
+0x0001b35c obj_QueueSprite calls spr_QueueObject
+0x0001b3e2 obj_UpdateScrollingPair scrolls two objects, x -2
+0x0001b48c obj_UpdateOffsetSprite x from host -0x8c
+0x0001b4b8 obj_InitSelectGrid 5x4 grid from table 1ce3c
+0x0001b50e obj_UpdateSelectGrid highlight sprite 0x66/0x6a by selection cea2a
+0x0001b546 obj_InitMenuIcons 5 type 0x88 icons
+0x0001b58c obj_UpdateMenuIcons selected icon sprite
+0x0001b5e2 obj_InitCarSelect 5 objects from table 1e19c
+0x0001b63a obj_UpdateCarSelect selected car slide
+0x0001b6ea obj_InitCarPortraits 5 objects from table 1e55c
+0x0001b740 obj_InitSpeedBars 20 type 0x88 sprite 0x6b
+0x0001b782 obj_UpdateSpeedBars 20 bars x offset
+0x0001b990 obj_UpdateCursorFrame cursor frame by cea2a
+0x0001b9ec obj_InitSpriteTableA 10 objects from table in A1
+0x0001ba34 obj_InitSpriteTableB 10 objects from table 1ced0
+0x0001ba82 obj_UpdateSpriteSet10 10 sprites, hide past x 0x70
+0x0001baee obj_InitBackdrop sprite 0x65 backdrop
+0x0001bb28 obj_InitHudRow12 12 type 0x84 sprites 0x71
+0x0001bb6e obj_UpdateHudRow12 12 sprites follow, shrink
+0x0001bbfe obj_InitHudRow12B 12 type 0x84 sprites y 0x74
+0x0001bcac obj_UpdateHudRow12B provisional: row update, entered mid-function
+0x0001bcca obj_UpdateHudSingle single sprite follow
+0x0001bd14 obj_InitHudRow12C 12 type 0x88 sprites 0x6f
+0x0001bd5a obj_UpdateHudRow12C 12 sprites follow, switch to 0x7f if selected
+0x0001be1a obj_InitDummy6c type 0x88 sprite 0x6c
+0x0001be4c obj_UpdateDummy6c follow ce734/ce736
+0x0001be80 obj_InitDummy75 type 0x88 sprite 0x75
+0x0001bec0 obj_UpdateDummy75 sprite swap and project
+0x0001bee4 obj_InitRacerRow 12 objects from table 20564
+0x0001bf38 obj_UpdateRacerRow 12 racers sprite by yaw frame
+0x0001c104 obj_InitCarPortraits2 5 portraits from 1e55c with yaw frame
+0x0001c192 obj_InitCarPortraitsB 5 objects from table 1e19c
+0x0001c1e0 obj_InitCarPortraitsC 5 objects from table 1e1ec
+0x0001c22e obj_UpdateCarPortraitsB 5 objects move, selection frame
+0x0001c2b2 obj_UpdateCarPortraitsB2 5 objects move, selection frame
+0x0001c3ec obj_UpdateCarPortraitsC 5 objects move, frame table 1c454
+0x0001c4b6 obj_ProjectAll10 loop 10 calls 1c7a0
+0x0001c516 obj_UpdateFollowLeader copies leader position, flame frame
+0x0001c588 obj_UpdateFollowLeaders5 5 follow leader objects
+0x0001c5c6 obj_UpdateReplayCars 5 cars replay table with yaw frame
+0x0001c69a obj_UpdateScaleUp10 10 sprites scale up
+0x0001c6c2 obj_ProjectAll40 loop 40 calls 1c86e
+0x0001c7a0 proj_ObjectToScreen perspective project via multiplier/divider at 0x2000 offsets
+0x0001c86e proj_ObjectToScreenRespawn project object, respawn from table ce720
+0x0001c890 proj_ObjectToScreenTail project object tail entered mid-function
+0x0001c98e obj_QueueHandler calls queue helper
+0x0001c99a spr_QueueObjectLocked copy 16-byte entry to cfe08 list, lock ceb43, limit 0x17f
+0x0001cc54 proj_ObjectToScreenA5 project object using A5 pointer
+0x00030f08 bogus_00030f08 false function in data

@@ -1,0 +1,138 @@
+0x00011d86 state_UpdateHudFrame provisional: clears flag ceb45, sets task spawn list handler, calls HUD draws and obj_ActivateAllObjects
+0x00011dba state_InitSoundSprites provisional: on flag ceff2 bit0 clears sound tables, sets sprite list limits, then activates objects
+0x00012710 hud_DrawTripleDigit provisional: queues sprites for 3 digit values from table 1bfa at y=0x58 plus a frame sprite, uses multiplier at A6
+0x00012822 task_InitEightObjs sets 8 consecutive objects active with handler 1c9ce and index in +0x27
+0x00012848 obj_InitType83FromTable creates type 0x83 objects from table at ceb0c (max 200), sign-flips field 0x2c unless bit 0x20
+0x00012970 proj_ObjectToScreenEntryB provisional: mid-function entry of the object projection (A0 object, multiplier at A6); duplicated tail of proj_ObjectToScreenB
+0x000129a8 proj_ObjectToScreenB project object to screen via multiplier/divider, set hit flag on player, queue 16-byte entry (variant of proj_ObjectToScreen)
+0x00012b8e obj_SetHandler12ba2 marks object at ce64c active with handler 12ba2
+0x00012ba8 obj_InitPoolFromTable fills object pool at ffff1000 from a descriptor table at 12bee (count, size, flags, handler)
+0x00012dbe pal_LoadSelectedCarPalette copies car palette via DMA regs at ffffb000 using pal_BlockCopyLarge when ce76e set
+0x00012ea0 snd_QueueCommandLocked provisional: ring write of D0 into cff88 table with lock byte cffcc (variant of snd_QueueCommand)
+0x00012f6e spr_PushEntryTable3de8 push one sprite entry (D1,char from table 3de8,D3,D4) to text list ffff7e00
+0x00012faa spr_PushEntryTable3de8Adj as spr_PushEntryTable3de8 with chars below 0x10 offset by -0x10
+0x00012ff0 txt_DrawNumber2Tail provisional: 2 char text draw loop (entered after txt_DrawNumber2 label)
+0x0001304e txt_DrawNumber4Tail provisional: 4 char text draw loop (entered after txt_DrawNumber4 label)
+0x000130d6 spr_BuildHwSpriteList convert software sprite lists ffff8000 into 12-byte hardware entries at ffff8600 with clipping and flip
+0x0001319e spr_ClearHwSpriteList clear 128 hardware sprite entries at ffff8600 and reset list count ffff8c00
+0x000140b2 spr_DrawHexNibbles4 draw 4 hex nibbles of D0 as sprites using table 140ee
+0x00014588 hud_DrawStatusIconRow provisional: draws small status icons based on ce852 and cf812 flags then calls spr_PushEntryTable3de8Adj
+0x0001468e hud_DrawRaceStatus draws rank, stage digits, car number and flashing bonus sprites to the B list
+0x00014ab2 hud_DrawStageTextA draw STAGE or EXTRA STAGE letters conditional on ce852 and cea42
+0x00014ac6 hud_DrawStageTextB draw STAGE or EXTRA STAGE letters (unconditional variant)
+0x00014bee hud_DrawBlinkBars provisional: two countdown bytes ceb5c/ceb5d each draw a pair of sprites while nonzero
+0x00014cc4 test_ModeMain test mode main loop: clears sprite lists, draws cursor and header, dispatches screen by cfe80 via thunk_test_Screen table
+0x0001502c test_DrawSwitchStatusTable provisional: loops table 5ba0 drawing sprites from per-switch state bytes at cfeae
+0x0001508c test_RomCrcLoop CRC16 (poly 0x8810) over every other byte, count in D7
+0x000150a4 test_RamWriteVerify write inverted byte, read back, return 4 on mismatch
+0x000150e2 test_DrawSwitchBitsScreen provisional: draws 3 hex bytes and 4 on/off bit rows from cff29
+0x000151ac test_DrawOnOffSprite draw ON/OFF style sprite by zero flag (1ad2 / 1ada)
+0x000151d8 test_DrawHexByteSprites draw a byte as two hex sprites plus H suffix (spacing 6)
+0x000152a4 test_DrawCoinSolenoidScreen blinks COIN SOLENOID OPEN/CLOSE text and toggles solenoid bits in cff2f
+0x000154c2 test_DrawAnalogValueScreen provisional: header, hex values, analog deadzone count and subtract
+0x00015506 test_ClearWatchdogQueue provisional: sys_LockTas, clear bit7 of cff10, snd_QueueCommandLocked
+0x0001551c test_DrawHexByteSprites24 draw a byte as two hex sprites plus suffix (spacing 0x18)
+0x00015664 test_QueueObjectLoop draw header then queue N 16-byte entries via test_QueueObjectEntry
+0x00015686 test_QueueObjectEntry push 16-byte entry at A0 to cfe08 list (limit 0x17f)
+0x0001572a test_DrawGameOptionsScreen draws dip switch rows (SIT DOWN, difficulty, cabinet type, etc.) from cff30/cff31
+0x00015a8a test_DrawBitRow8 draw 8 on/off sprites for the bits of D0b, spacing 0xe
+0x00015ac6 test_DrawBitDigit draw one digit sprite from table 15b10 between two header pushes
+0x00015b82 test_DrawBookkeepingScreen draws coin/play counters with txt_DrawNumber3/4 and divide helpers
+0x00015d2a spr_QueueTableEntries copy N+1 sprite entries from table at A0 into the B list
+0x00015e92 test_ClearWorkRam zero 64 longs at cfd00
+0x00015eb2 test_UpdateStickRepeat counter cfe84 reset when analog value ce0ce inside +-0x18, wraps at 15
+0x00015f56 test_LatchInputA copy cff29 to cfe86
+0x00015f60 test_LatchInputB copy cff29 to cfe88
+0x00015fb6 test_DrawMenuCursor draw cursor sprite at y = cfe80*16-0x50
+0x00015ff0 test_DrawHeaderSprites header sprites at top then calls spr_PushEntryTable3de8Adj
+0x00016044 test_DrawOnOffLabel draw 18c2/18ca label sprite depending on cfe8e
+0x000160b0 math_DivideWordsBy4 divide 4 words at A0 by word at A1, remainder carried down, results to A2 (0 if divisor 0)
+0x000160cc math_SplitSecondsHMS provisional: D0 seconds-like value to hours/minutes/seconds via hardware divider at A6
+0x00016118 math_BinToBcd32 provisional: two BCD-nibble conversions then /10000 via hardware divider at A6
+0x00016134 math_BinToBcdLoop provisional: divides D0w by 10 four times via hardware divider, collecting BCD nibbles
+0x00016154 math_BinToBcd16 thunk-like wrapper: jumps to math_BinToBcd16Body
+0x00016176 math_BinToBcd16Body convert 16-bit value to 4 BCD digits using hardware divider by 10
+0x000161cc obj_InitFixedSpriteA init object fields (frame 0xad50, handler 16316, flags 0x80), helper for high-score screen
+0x0001620e obj_InitFixedSpriteB init object fields (frame 0x75b8, x 0xffc1, handler 16316, flags 0x38)
+0x00016250 obj_InitFixedSpriteC init object fields (frame 0x75be, x 0xffb9, handler 16316)
+0x00016292 obj_InitFixedSpriteD init object fields (frame 0x75b8, x 0x40, handler 16316)
+0x000162d4 obj_InitFixedSpriteE init object fields (frame 0x75be, x 0x48, handler 16316, flags 0x38)
+0x0001631c hs_InitRankTableOnce clears fffffa00 work and copies 20 default ranking entries from 5f4c to fffffa16 once (lock byte cffe0)
+0x0001636a hs_ClearWork clear 11 words at fffffa00
+0x0001637a hs_StateDispatchA switch on fffffa00 bits 2-3: init, slide-in, blink title, rank entry draw
+0x000163c6 hs_StateDispatchB high score screen state machine on fffffa00 bits 2-4 (rank find, show, name entry, messages, done)
+0x000165c8 hs_DrawSlideIn slide-in of the ranking title sprites (offset ffffafea steps by 8)
+0x00016658 hs_DrawBlinkTitle draw title sprites and blink counter ffffafdd until bit 2 clears
+0x000169e2 hs_DrawRankColumn draw per-row rank number sprites (row step 0xd, entry stride 0x14)
+0x00016a4a hs_DrawRankMarkers draw per-row marker sprites and dividers
+0x00016ab4 hs_DrawInitialsColumn draw 3 initial letters per ranking row from entry +8..+10
+0x00016b60 hs_DrawScoreColumn draw score number per row via txt_DrawNumber4Tail
+0x00016b88 hs_DrawRankClassColumn provisional: per-row class/medal sprites from entry bytes +0xe..+0x12
+0x00016bec hs_DrawClassSpriteA draw sprite from table 6112 indexed by D0*4+D2, list id 0x48
+0x00016c26 hs_DrawClassSpriteB draw sprite from table 612a indexed by D2, list id 0x48
+0x00016cdc hs_FindRankSlot scan 20 entries (stride 20) for first score below new score cff60, store rank in +6
+0x00016cfe hs_InsertRankEntry shift lower entries down and write new entry: score, time, car, stage, flags
+0x00016d66 hs_ClampNameCursor set +2 to rank-2 clamped to 0..15
+0x00016ec8 hs_CheckBlockedInitials provisional: compares 3-char initials against a built-in list, sets ce878
+0x0001730c hs_SteeringToLetterIndex map steering value ce0ce+0x10 (0..0x1f) to letter column and row highlight on 4 child objects
+0x0001737e hs_DrawArrowHint provisional: draws arrow sprite 8ba/8c2/8ca depending on distance of cursor from 0x10
+0x000174a2 hs_DrawNameEntryLetters store chosen letter into entry and draw the 3 current initials with cursor
+0x000175fc hs_DrawRankLabel draw rank label sprite from table 6132 at y=0x5a
+0x00017650 text_DrawRankText draw zero-terminated character string at 176d5 with step 0x19
+0x00017664 text_DrawPointsText draw string POINTS (176cd) at y=0x2d with step 0x19
+0x00017678 text_DrawYourScoreText draw string YOUR SCORE (from 176c2) at y=0xffd3 step 0x19
+0x000176da hs_DrawScoreDigits8 draw up to 8 hex/BCD digits of D0 from low to high with step -0x20, table 132fc
+0x0001787e sys_InitVideoMemory trap 7, clears object RAM, sprite RAM, loads palettes and backdrop, trap 0
+0x0001799a sys_ClearObjectRam clear 2000 x 32 bytes at ffff0000
+0x000179bc sys_ClearSpriteRam188000 clear 128 hardware sprite entries at 188000 (flag word 0x40000000)
+0x000179da sys_CopyPaletteBank191000 copy palette block from 61d2 to 191000
+0x000179fe sys_CopyPaletteBank192000 copy 256 palette blocks from acba to 192000
+0x00017a24 sys_InitPalettesAndTiles clear 190000 bank then load backdrop twice with traps 8
+0x00017a42 sys_ClearPaletteBank190000 clear 32 blocks at 190000
+0x00017a62 sys_FillBackdropRam180000 run-length fill of 180000 from table 61a4
+0x00017a7e sys_CopyBackdropTail copy 6 longs from 61b8 to 1807e0
+0x00017c1e scene_SetupDispatch resets objects and picks scene setup (intro, fireworks, ending, A/B/C) from ce752 low nibble
+0x00018c14 obj_UpdateScrollRow35 loop over 35 objects, scroll x from angle accumulator ce768, hide when below -200
+0x00018c80 obj_InitEndingSpriteA init type 0x87 object (frame 759a), handler obj_UpdateEndingA
+0x00018d5a obj_InitEndingSpriteB init type 0x83 object (frame 85a2), handler obj_UpdateEndingB
+0x00018df2 obj_InitFireworkSprites init 79 type 0x85 objects from table 1123a, handler 19118
+0x00018e68 obj_InitFireworkSprites2 init 79 type 0x85 objects from table 1123a with extra table 20564, frame 383a
+0x00018ff0 proj_ObjectToScreenNoHit project object to screen like proj_ObjectToScreenB, no player hit test or queue
+0x00019822 test_DrawVibMotorLabels draw MOVE RIGHT / ACTIVE / VIBRATION LEVEL / VIBRATION MOTOR text rows
+0x00019bc4 test_DrawMotorMenuByMode switch cff30 low bits: draw MOTOR TEST MENU / SELF TEST / HANDLE MOTOR TEST text
+0x00019f02 test_DrawMotorSelfTestText draw MOTOR SELF TEST and WARNING MOVING RIGHT LEFT text
+0x00019fc2 test_DrawMotorStatusMsg switch cff2e low nibble: draw motor, volume and limit switch status message strings
+0x0001a004 test_MotorJmpTbl_04 bra.w thunk in the motor-test jump table at 0x19ff0 (not a real function)
+0x0001a008 test_MotorJmpTbl_08 bra.w thunk in the motor-test jump table at 0x19ff0 (not a real function)
+0x0001a00c test_MotorJmpTbl_0c bra.w thunk in the motor-test jump table at 0x19ff0 (not a real function)
+0x0001a010 test_MotorJmpTbl_10 bra.w thunk in the motor-test jump table at 0x19ff0 (not a real function)
+0x0001a30e test_DrawVibrationLayoutSprites queue 22 fixed text-list sprites (palette 0xc2b) laying out the vibration test grid
+0x0001a67a test_DrawMsgRowA draw 5 chars from 117ba at x=0x50 y=-0x20
+0x0001a6c4 test_DrawMsgRowB draw 5 chars from 117c0 at x=0x50 y=-0x20
+0x0001a70e test_DrawMsgTrouble draw TROUB string at x=0x50 y=-0x20
+0x0001a7a2 test_DrawMsgActive draw ACTIVE string at x=0x50 y=-0x10
+0x0001a7ec test_DrawMsgTroubleRow2 draw TROUBLE string tail at x=0x50 y=-0x10
+0x0001a836 test_DrawMsgLabelPair draw 3 chars from 117e0 at x=-0x30 y=0x10
+0x0001a880 test_DrawMsgRightGoodOff draw label at 117e4 then RIGHT/GOOD/OFF string at y=0
+0x0001a912 test_DrawMsgLabelPair2 draw 3 chars from RIGHT_GOODOFF+10 at x=-0x30 y=0x20
+0x0001a95c test_DrawMsgLeftGood draw label at 117f6 then LEFT/GOOD string at y=0
+0x0001aa82 test_DrawMsgVmNorm draw 2 chars of V.M. NORM string at x=0x80 y=0x10
+0x0001aacc test_DrawMsgVmTrou draw 3 chars of V.M. TROUBLE string at x=0x80 y=0x10
+0x0001ab16 test_DrawMsgOnOffA draw 2 chars from 1181a at x=0x80 y=0x20
+0x0001ab60 test_DrawMsgOnOffB draw 3 chars from 1181c at x=0x80 y=0x20
+0x0001abe0 test_DrawMsgWarningMotor draw WARNING MOTOR TROUBLE string at x=-0x20 y=0x30
+0x0001ac2a test_DrawMsgWarningSafetyL draw WARNING SAFETY SENSOR LEFT string at x=-0x20 y=0x50
+0x0001ac74 test_DrawMsgWarningSafetyR draw second half of safety sensor string at x=-0x20 y=0x50
+0x0001acbe txt_DrawHexByteSprites draw byte D0 as two hex digit sprites from table 1ad38 plus separator char 0xb82
+0x0001ad58 scene_InitSetupMenu reset objects, load palette 1cd28 into fffff900, init menu icons, portraits, racer rows, HUD rows and set handler 1ae92
+0x0001b2f8 obj_InitQueueSprite27 init type 0x80 object (frame 4c2, id 0x27) with handler obj_QueueSprite
+0x0001b390 obj_InitQueueTwoFromTable1e5bc init 2 type 0x87 objects from table 1e5bc with handler obj_QueueHandler
+0x0001b42c obj_InitQueueSingle84 init type 0x84 object (frame 80aa, id 0x80) with handler obj_QueueHandler
+0x0001b6b2 obj_InitQueueSingle84B init type 0x84 object (frame 402, id 0x2b) with handler obj_QueueHandler
+0x0001b7c2 obj_InitQueueEight44 init 8 type 0x80 objects (frame 402, id 0x44) with handler obj_QueueHandler
+0x0001b950 obj_InitQueueSingle6d init type 0x80 object (id 0x6d, frame 402) with handler obj_QueueHandler
+0x0001be0a obj_UpdateScrollIn if x at +0x16 above 0x280 then subtract 3 per frame
+0x0001c39e obj_InitQueueFiveFromTable1e23c init 5 type 0x80 objects from table 1e23c with handler obj_QueueHandler
+0x0001c468 obj_InitQueueTenFromTable1e4bc init 10 objects from table 1e4bc (adds +0x2c word) with handler obj_QueueHandler
+0x0001c4c8 obj_InitQueueFortyFromTable1e2dc init 40 objects from table 1e2dc (adds +0x2c word) with handler obj_QueueHandler
+0x0001c6d4 proj_ObjectToScreenMenu project menu object using ce712 depth and ce714/ce71e/ce724 offsets, hide if behind camera

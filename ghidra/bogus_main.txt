@@ -1,0 +1,12 @@
+0x0000f3a0 bogus_0000f3a0 false function in data
+0x000277e4 bogus_000277e4 false function in data
+0x000277f0 bogus_000277f0 false function in data
+0x0002fdf4 bogus_0002fdf4 false function in data
+0x0002fe00 bogus_0002fe00 false function in data
+0x00033068 bogus_00033068 false function in data
+0x000352d4 bogus_000352d4 false function in data
+0x000352dc bogus_000352dc false function in data
+0x000365b0 bogus_000365b0 false function in data
+0x00036690 bogus_00036690 false function in data
+0x00036698 bogus_00036698 false function in data
+0x0003808e bogus_0003808e false function in data

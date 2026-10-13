@@ -1,0 +1,16 @@
+# subx (sprite CPU) hand names. Format: 0x<addr> <name> [comment]
+0x0000db82 sys_WaitVblank spin until the vblank flag cff0c is set by irq_Level4
+0x0000dbb2 subx_MainLoop boot: trap 7, wait main flag cff06, subx_Init, trap 0; then per frame sys_WaitVblank, yspr_BuildSpriteList, test_RomRamCheck when cf810 < 0
+0x0000dc22 irq_Level4 vblank: swap double-buffer pointers cfe00/04, 08/0c, 10/14 and flip the sprite bank (0x18000e); else copy 0x40 longs cfd00 -> fffffe00
+0x0000dcc0 yspr_BuildSpriteList bucket-sort sprite entries by depth byte into ffff8000 (max 30 per bucket), gather to ffffc000, project and clip into the double list at cfe14 (+0x1000 mirror), count to ce808
+0x0000e0e6 yspr_BuildSpriteList_tail provisional: split-off loop body/end of yspr_BuildSpriteList (writes the -1 terminator and the count ce808)
+0x0000e108 subx_Init ram_ClearBuckets, nv_ValidateBackup, hw_InitVideo
+0x0000e116 ram_ClearBuckets clear 0x7e00 bytes of work RAM from ffff8000
+0x0000e136 nv_ValidateBackup two 0x80-byte backup copies (fffffe00 / fffffe80, CRC word at +0x7e): copy the good one over the bad one, clear both if neither checks; then copy to shared cfd00
+0x0000e1ac nv_CrcBankA crc16_Calc over backup copy A
+0x0000e1ba nv_CrcBankB crc16_Calc over backup copy B
+0x0000e1c8 crc16_Calc reflected CRC-16 (poly 0x8810) over D1+1 words at A0
+0x0000e1ea hw_InitVideo init the sprite link table at 0x188000, control regs 0x180000/0x188000/0x18c000, the 0x184000 tables, then a register init list (data at 0xd75e: addr + 3 longs, ends with a negative addr)
+0x0000e2c6 test_RomRamCheck once (cfea7 bit7): ROM CRCs against the table at 0xe31e and RAM tests from the table at 0xe330; result bytes 0/4; sets cfea9 bit7
+0x0000e362 test_RomCrc crc16 over one byte lane of a ROM pair (stride 4)
+0x0000e37c test_RamBytes invert/compare each RAM byte; returns 4 on a bad byte, 0 when all pass

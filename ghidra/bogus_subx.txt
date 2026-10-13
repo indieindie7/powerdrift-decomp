@@ -1,0 +1,2 @@
+0x0000d75e bogus
+0x0000e31e bogus

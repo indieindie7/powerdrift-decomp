@@ -1,0 +1,43 @@
+0x00000400 exc_VectorStub shared stub for bus/address/illegal/zero-divide vectors, just returns
+0x00015498 test_AnalogInputScreenLoop test-mode loop: each frame draws the analog input screen, builds the sprite list and latches input until the exit button, then test_ScreenExitQueueSound
+0x0001570e test_GameOptionsScreenLoop test-mode loop around test_DrawGameOptionsScreen (frame sync, sprite list, input latch until exit)
+0x00015b50 test_BookkeepingScreenLoop test-mode loop around test_DrawBookkeepingScreen; button B toggles the page flag cfe82
+0x00015d50 test_DrawHmsTimeRow bookkeeping time row: splits seconds into h/m/s (math_SplitSecondsHMS), draws 2 digits and pushes two separator sprites
+0x00016112 math_BinToBcdLoopThunk 6-byte wrapper that calls math_BinToBcdLoop and returns
+0x0001639a hs_AttractInitSlideOffset ranking attract state 0 (ce09c=4, fffffa00 bits2-3 = 0): slide offset ffffafea = 0xff48, advance to state 4
+0x000163a8 hs_AttractSlideInState ranking attract state 4: calls hs_DrawSlideIn
+0x000163ae hs_AttractBlinkTitleState ranking attract state 8: calls hs_DrawBlinkTitle
+0x000163b4 hs_AttractRankRowState ranking attract state 0xc: sets row counters (fffffa02=0, fffffa04=7) and draws rank rows with hs_DrawRankEntry
+0x000163d4 hs_ScoreCheckInsertState ce09c=0x1a state: if fffffa00==0 finds the rank slot and inserts the entry when rank < 20, then clears cf060/cf062/cf064/cf00a
+0x00016436 hs_EntryFindSlotState name-entry state 0 (ce09c=0x1b): finds rank slot, inserts the entry or marks unranked (+0x14=0xff, cf060=6), clamps name cursor, next state 4
+0x00016474 hs_EntryRankedOrRejectState name-entry state 4: if ranked (byte fffffa14 == 0) sets cursor limits and goes to state 0xc, else shows reject (timer 0x80, state 8); button bit 3 edge clears cf060/cf064
+0x000164d0 hs_EntryRejectCountdownState name-entry state 8: hs_UpdateWrapper while counting down ffff8c08, then cf060=1 and state 0x1c (done); button edge aborts
+0x00016514 hs_EntrySetChainState name-entry state 0xc: sets flag 0x80 along the object chain (obj_SetChain80)
+0x0001651c hs_EntryNameInputState name-entry state 0x10: resets timer ffff8c08=0x60 and runs hs_NameEntryInput
+0x00016528 hs_EntryMessageClearState name-entry state 0x14: clears chain flag, draws message, countdown then cf060=0xf, timer 0x40, state 0x18
+0x0001657a hs_EntryFinalMessageState name-entry state 0x18: draws message and counts down, then cf060=1 and state 0x1c
+0x000165c0 hs_EntryDoneState name-entry state 0x1c (set from other states, empty handler body just writes 0x1c)
+0x0001bcac obj_UpdateRacerRowSlideLoop loop body of obj_UpdateRacerRowSlide (entered mid-function): moves selected object, proj_ObjectToScreenMenu, priority += 4, next object
+0x00011d86 state_RaceHudFrame per-frame race HUD state: on flag ceb45 bit0 starts task_InitSpawnList, draws status icons, race status and triple digit, then obj_ActivateAllObjects
+0x00011dba state_HsEntryScreen high-score entry screen state: on flag ceff2 bit0 clears sound tables, sets sprite list limits and hs_ClearWork; later frames run hs_StateDispatchB then obj_ActivateAllObjects
+0x00012710 hud_DrawTripleDigit queues sprites for 3 digit values from table 1bfa at y=0x58 plus a frame sprite, uses multiplier at A6
+0x00012970 proj_ObjectToScreenEntryB mid-function entry of the object projection (A0 object, multiplier at A6); duplicated tail of proj_ObjectToScreenB
+0x00012ea0 snd_QueueCommandLocked ring write of D0 into cff88 table with lock byte cffcc (variant of snd_QueueCommand)
+0x00012ff0 txt_DrawNumber2Tail 2 char text draw loop (entered after txt_DrawNumber2 label)
+0x0001304e txt_DrawNumber4Tail 4 char text draw loop (entered after txt_DrawNumber4 label)
+0x00014588 hud_DrawStatusIconRow draws small status icons based on ce852 and cf812 flags then calls spr_PushEntryTable3de8Adj
+0x00014bee hud_DrawBlinkBars two countdown bytes ceb5c/ceb5d each draw a pair of sprites while nonzero
+0x0001502c test_DrawSwitchStatusTable loops table 5ba0 drawing sprites from per-switch state bytes at cfeae
+0x000150e2 test_DrawSwitchBitsScreen draws 3 hex bytes and 4 on/off bit rows from cff29
+0x000154c2 test_DrawAnalogValueScreen header, hex values, analog deadzone count and subtract
+0x00015506 test_ScreenExitQueueSound screen exit: sys_LockTas, clear bit7 of cff10, snd_QueueCommandLocked
+0x000160cc math_SplitSecondsHMS D0 seconds-like value (limit 0x22542f0) to hours/minutes/seconds in BCD via hardware divider at A6
+0x00016118 math_BinToBcd32 two BCD-nibble conversions then /10000 via hardware divider at A6
+0x00016134 math_BinToBcdLoop divides D0w by 10 four times via hardware divider, collecting BCD nibbles
+0x00016b88 hs_DrawRankClassColumn per-row class/medal sprites from entry bytes +0xe..+0x12
+0x00016ec8 hs_MatchInitialsMessage compares 3-char initials against a built-in list of 11 initials; a hit sets ce878 to the message index (used by hs_DrawMessageText message table), +1 if ce076 bit5
+0x0001737e hs_DrawArrowHint draws arrow sprite 8ba/8c2/8ca depending on distance of cursor from 0x10
+0x00011f7a obj_UpdateWheelLampA HUD lamp, queues sprite 0x6f/0x70/0x71 chosen by ceb48 bit 5 and sign of ceb4a (frame 0x8d2/0x8da) unless ceff0 bit 4; no stored pointer in dump
+0x00011fe0 obj_UpdateWheelLampB HUD lamp, queues sprite 0x6d, or 0x6c/7 when ceb4a < 0 (by ceb48 bit 5), unless ceff0 bit 4; no stored pointer in dump
+0x0001b13e scene_SetupMenuCamMoveC setup-menu scene state 6, mid-function entry; sets ceb5c = 0x5a when obj+0x2a < 0x60, camera move, loads palette PTR 0x1cd14[cea2a] into fffff900 when ce712 < 0, next state scene_SetupMenuHold
+0x0001b478 obj_UpdateOffsetSpriteEntry fragment before obj_UpdateOffsetSprite; copies x to prev, x = ce310-indexed value -0x8c, frame 0x402 unless both ce718/ce728 set

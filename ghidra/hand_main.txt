@@ -1,0 +1,175 @@
+0x00000400 sys_ExceptionStub exception stub, returns
+0x0000f3a0 bogus_0000f3a0 false function in data
+0x000277e4 bogus_000277e4 false function in data
+0x000277f0 bogus_000277f0 false function in data
+0x0002fdf4 bogus_0002fdf4 false function in data
+0x0002fe00 bogus_0002fe00 false function in data
+0x00033000 sys_VectorEntry provisional: decompile failed, 104 bytes at code start
+0x00033068 bogus_00033068 false function in data
+0x00033078 sys_Trap0Rts trap 0 handler, rts
+0x0003307e sys_Trap7Rts trap 7 handler, rts
+0x00033084 sys_WaitFrameSync spin on vblank flag cff0e
+0x000330a0 sys_Trap8Stop trap 8 stop
+0x000330a6 sys_Reset reset entry
+0x000331ae task_InitSlotChain clears slots and builds chain, mid-entry
+0x000331ba task_InitSlotChainFull clears slots, sets flags, camera/player pointer
+0x00033230 irq_Level2_SpriteFlush level 2 irq feeds sub CPU / sprite flush
+0x0003327a irq_VBlank main vblank tick: inputs, clocks, sound drain
+0x00033312 io_ReadStartButton reads start button
+0x00033344 time_TickClocks ticks game clocks
+0x00033380 time_TickLapTimersIfRacing tick lap timers when mode racing
+0x00033390 time_TickLapTimer BCD lap timer tick
+0x000333be time_TickLapTimerAlt BCD lap timer tick variant
+0x00033432 snd_DrainLatch ring buffer cff88 to latch 82001
+0x00033488 snd_Queue queue sound command into ring buffer
+0x000334a2 snd_QueueNoDemoCheck queue sound skipping demo check
+0x00033504 hook_Empty empty hook
+0x00033506 cab_MotorOutput provisional: cabinet motor output
+0x00033532 cab_MotorOutputB provisional: cabinet motor output variant
+0x0003354a cab_MotorThunkA provisional: thunk
+0x0003354e cab_MotorThunkB provisional: thunk
+0x00033552 cab_MotorThunkC provisional: thunk
+0x0003355c cab_MotorUpdate provisional: cabinet motor update
+0x0003365e cab_MotorUpdateB provisional: cabinet motor update variant
+0x000336bc cab_MotorTail provisional: motor tail fragment
+0x000336c2 cab_MotorCopyA provisional: copy of 33724 body
+0x000336c4 cab_MotorCopyB provisional: copy of 33724 body
+0x000336c6 cab_MotorCopyC provisional: copy of 33724 body
+0x000336c8 cab_MotorCopyD provisional: copy of 33724 body
+0x000336ca cab_MotorCopyE provisional: copy of 33724 body
+0x00033724 cab_MotorStep provisional: motor step
+0x00033780 cab_MotorStepB provisional: motor step variant
+0x00033828 cab_MotorStepC provisional: motor step fragment
+0x00033830 sys_WaitFrameSyncRet spin on vblank flag, returns flag
+0x00033844 race_InitPlayer init player car, calls object placers
+0x000338dc race_FrameTask per-frame race task
+0x00033c54 spr_ProjectFragmentA provisional: projection fragment
+0x00033c8c spr_ProjectFragmentB provisional: projection fragment
+0x00033c9a obj_UpdateSlotChain update each object slot via handler
+0x00033d94 spr_ProjectAndQueue project object and queue sprite
+0x00033ed6 obj_HandlerRtsA empty object handler
+0x00033eda obj_HandlerRtsB empty object handler
+0x00033ede obj_HandlerRtsC empty object handler
+0x00033ee2 obj_HandlerRtsD empty object handler
+0x00033ee6 obj_HandlerRtsE empty object handler
+0x00033eea obj_HandlerRtsF empty object handler
+0x00033eee obj_HandlerRtsG empty object handler
+0x00033ef6 obj_HandlerRtsH empty object handler
+0x00033ef8 obj_InitTrackObjects init 32 object setups
+0x0003409c spr_ProjectFragmentC provisional: projection fragment
+0x000340ce car_FrameTask player or AI per-frame task
+0x0003439c car_IntegrateSpeedAndLap integrate speed and lap position
+0x0003453c car_IntegrateAi provisional: AI car integration
+0x00034a42 car_UpdateOrientationAndPos heading, pitch and position from track
+0x00034aa8 car_UpdateOrientationAndPosB orientation variant
+0x00034bb8 car_FragmentD provisional: car update fragment
+0x00034d44 car_SteerLateral lateral steering
+0x00035026 ai_EaseLaneChange ease lateral offset toward lane target
+0x000352d4 bogus_000352d4 false function in data
+0x000352dc bogus_000352dc false function in data
+0x00035c7c ai_LateralFragment provisional: lateral fragment
+0x00035d54 car_FrameTaskAiA provisional: AI frame task variant
+0x00035dd4 car_FrameTaskAiB provisional: AI frame task variant
+0x00035f48 car_FrameTaskAiC provisional: AI frame task variant
+0x000363fe car_UpdateAiSpriteFrame AI car sprite frame select
+0x000365b0 bogus_000365b0 false function in data
+0x00036690 bogus_00036690 false function in data
+0x00036698 bogus_00036698 false function in data
+0x000367bc obj_HideSlotsInMode hide slots depending on mode
+0x0003683a ai_SpawnCar spawn AI car
+0x00036b70 spr_ProjectCar project car sprite
+0x00036c12 spr_ProjectCarB project car sprite variant
+0x00036d88 spr_ShadowInit car shadow init
+0x00036ddc spr_ShadowUpdate car shadow update
+0x00036e26 spr_EffectInit effect sprite init
+0x00036e40 spr_EffectUpdate effect sprite update
+0x00036f20 spr_ProjectFragmentD provisional: projection fragment
+0x00036f58 spr_ProjectFragmentE provisional: projection fragment
+0x00036fa0 spr_ProjectFragmentF provisional: projection fragment
+0x00037128 car_CollideCars car to car collision
+0x000372a4 ai_StepDrivingScript step AI driving script
+0x000373ba race_SortCarsByPosition provisional: rank cars by lap position
+0x00037476 io_ReadInputs read ADC wheel and pedals
+0x000374d0 io_ScaleWheelPedals scale ADC to steer gas brake
+0x00037610 spr_QueueSprite add record to sprite queue
+0x00037646 race_BubbleSortRank bubble sort 12 cars by lap pos, swap ring links
+0x0003772e task_Rts empty task
+0x00037730 game_ModeDispatch per-frame mode dispatch via ce09c table
+0x000377a2 game_StateThunk0 thunk to state 0
+0x000377a6 game_StateThunk1 thunk to state 1
+0x000377aa game_StateThunk2 thunk to state 2
+0x000377ae game_StateThunk3 thunk to state 3
+0x000377b2 game_StateThunk4 thunk to state 4
+0x000377b6 game_StateThunk5 thunk to state 5
+0x000377ba game_StateThunk6 thunk to state 6
+0x000377be game_StateThunk7 thunk to state 7
+0x000377c2 game_StateThunk8 thunk to state 8
+0x000377c6 game_StateThunk9 thunk to state 9
+0x000377ca game_StateThunk10 thunk to state 10
+0x00037812 game_StateAdvance mode step, ce09c+1
+0x0003781a game_StateDemoInit random course for demo, load course
+0x0003797a game_StateDemoRun demo countdown, coin check
+0x000379c2 game_StateStartScreenInit start screen setup
+0x00037a18 game_StateStartWait wait for coin or start
+0x00037a60 game_StateStartPrep prepare race start
+0x00037aca game_StateWaitReturnAttract wait, back to attract
+0x00037b18 game_StateCourseSelectPrep course select prep, sounds
+0x00037bb2 game_StateCourseSelect course select logic
+0x00037c86 game_StateRaceSetup reset lap bytes cf816, consume credits
+0x00037d58 game_StateRaceInit load course, start race objects
+0x00037e1c game_StateCountdown start countdown with sounds
+0x00037e74 game_StateSndPair queue two sounds
+0x00037ea8 game_StateWaitTimerEnd wait for end timer
+0x00037f2e race_FinishScore finish bonus/score calc
+0x0003808e bogus_0003808e false function in data
+0x000385ba race_UpdateAttractFlag provisional: toggle cff2f bit 4 from cf813
+0x00038986 game_CheckCoinInsert coin check sets mode 9
+0x000389b4 gfx_ResultsObjsInit init chain of result objects
+0x00038a14 gfx_ResultsObjRun result object run
+0x00038a82 gfx_ResultsObj2Init result object 2 init
+0x00038aa4 gfx_ResultsObj2Run result object 2 run
+0x00038e36 gfx_ObjInit object init
+0x00038e78 gfx_ObjRun object run
+0x00038ea8 gfx_ObjRunProjectile object with trig motion
+0x00038fde task_RtsB empty task
+0x00038fe4 gfx_InitEightSprites init 8 sprite objects
+0x0003941c gfx_ObjSetY set Y and queue sprite
+0x0003946e io_ToggleLatchClear toggle io latch bit
+0x0003947e io_ToggleLatch toggle io latch bit
+0x00039488 sys_InitHardware clear RAM, init hardware
+0x00039512 io_WaitFlag spin until flag set
+0x00039518 sys_ClearRamFFFF clear RAM at ffff0000
+0x0003953a sys_ClearSharedRam clear shared RAM c0000
+0x0003955c sys_Random LCG random number
+0x00039586 coin_ConsumeCredits1 consume credits (1 coin)
+0x00039598 coin_ConsumeCredits consume credits from dip setting
+0x000395e8 io_ReadDipSwitches read dip switches
+0x0003963a io_Rts empty
+0x00039648 coin_Process process coin inputs
+0x000396b8 coin_ProcessSlot process one coin slot
+0x0003970c coin_ThunkA coin mode thunk
+0x0003970e coin_ThunkB coin mode thunk
+0x00039710 coin_ThunkC coin mode thunk
+0x00039712 coin_ThunkD coin mode thunk
+0x00039714 coin_ThunkE coin mode thunk
+0x00039716 coin_ThunkF coin mode thunk
+0x00039718 coin_ThunkG coin mode thunk
+0x00039720 coin_Mode0 coin multiplier mode
+0x00039722 coin_Mode1 coin multiplier mode
+0x00039724 coin_Mode2 coin multiplier mode
+0x00039726 coin_Mode3 coin multiplier mode
+0x00039730 coin_Mode4 coin multiplier mode
+0x0003973c coin_Mode5 coin multiplier mode
+0x00039748 coin_Mode6 coin multiplier mode
+0x00039754 coin_Mode7 coin multiplier mode
+0x00039760 coin_Mode8 coin multiplier mode
+0x0003976c coin_Mode9 coin multiplier mode
+0x000397f2 coin_AddCredits add credits BCD
+0x0003982e coin_ServiceCounter coin counter pulse timer
+0x000398b8 bk_UpdateStatsChecksum update stats and checksum
+0x00039902 bk_Checksum checksum backup RAM
+0x0003997c sys_SelfTestRom provisional: rom/ram self test
+0x0003864e race_LoadCourse index = word 6(a6) + stage*4 into the course table 0x385d6; copies the record to ceb00.. (circuit, AI script, object runs)
+0x00033a46 obj_ReadTracksideRuns walk the object run list ceb08 (start, count, spacing, kind, w4..w7; <0 ends; kind 0 = default sprite ceb34), max 170 objects
+0x00033afa obj_PlaceOnTrack place one trackside object from the heading table at b000 and the sin/cos tables 0xef6/0xcf6
+0x00033e9c trk_StepTriggerList walk the trigger list ceb10; every handler is rts (dead feature)

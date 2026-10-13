@@ -1,0 +1,24 @@
+0x00033702 cab_MotorCopyF provisional: 2-byte motor handler variant stored at obj+0x1a by cab_MotorStep when cff24 > 0x80 (sibling of cab_MotorCopyA..E)
+0x0003550c car_UpdateAiDynamics provisional: AI car speed/lap/steer-ease step called from car_FrameTaskGrid after ai_StepDrivingScript; eases speed toward target, lap word car+0x3c, course scroll cea00/cea14, camera angles, calls car_UpdateTrackPosAndHeading
+0x00035866 car_UpdateTrackPosAndHeading reads course point (cea08+ceb00) into car+0x16..0x1a, heading table ffffb000 into ceb46 and car+0x94, calls car_EaseSteerRoll unless crash flag car+0x46
+0x00035a12 bogus_00035a12 data decoded as code (BCD/div garbage, 160 bytes between FUN_00035866 and FUN_00035ad2)
+0x00035ab2 bogus_00035ab2 data decoded as code (BCD/div garbage, 32 bytes)
+0x00035ad2 car_EaseSteerRoll eases steer/roll values car+0x86 (toward -car+0x8a), car+0x88, car+0x7a (clamp +-0x20), sums into car+0x84; called from car_UpdateTrackPosAndHeading
+0x000368aa car_FrameTaskGrid per-car handler (obj+0x10) set by ai_SpawnCar for all 12 cars; if car index != player grid slot cea44 runs AI timers, ai_StepDrivingScript, car_UpdateAiDynamics, spr_ProjectCarB else player path with crash/flag timers, engine sounds, collisions
+0x00037054 spr_ProjectFragmentG provisional: tail of car sprite code, builds sprite record from car fields and queues it via spr_QueueSprite; uses frame table 0x3711e, snd on cf812 bit 4 for player
+0x00038af2 gfx_ResultsObj3Init result object 3 init (sets flag 0x20, pos 7ff.., sprite id 0x2a) then handler gfx_ResultsObj3Run
+0x00038b14 gfx_ResultsObj3Run result object 3 run: copies x/size from neighbour object fields (A5-0x34/-0x32/-0x3c), queues sprite
+0x00038b3c gfx_ResultsObj4Init result object 4 init (x -100, size 0x80, sprite 0xac7e) then handler gfx_ResultsObj4Run
+0x00038b5e gfx_ResultsObj4Run result object 4 run: blinking sprite animated from table 0x38bbe (4 words, cycled by counter), follows parent size; hides itself (clears bit 7) when its timer reaches 0
+0x00038bce gfx_ConfettiInit provisional: init of an object chain (header, two helpers, 64 gfx_ObjRunProjectile objects with start positions from table 0x38c9c and sprites from table 0x38d9c), ends with task_RtsB; not stored in the dump (entered via table)
+0x00038c9a obj_HandlerRtsI empty object handler (set by gfx_ConfettiInit)
+0x00038d9c bogus_00038d9c data decoded as code: 16-entry (sprite,size) table used by gfx_ConfettiInit; the handler code starts at 0x38ddc
+0x0003906e gfx_RankRowDrop one of 8 stacked sprites (gfx_InitEightSprites) falling +0x14/frame to a stop y from table 0x3903e, then spawns a splash object at +0x200 (gfx_DropSplashInit) and bounces via gfx_RankRowBounce; provisional: exact screen
+0x000390c0 gfx_RankRowBounce bounce after landing: y = rest y - (sine table 0x2914 >> 2), counter obj+0x16 from 0xf down, queues sprite
+0x000390f0 gfx_DropSplashInit init of the splash object at +0x200 (sprite 0x2b), sets its handler to gfx_DropSplash2Run, runs the splash handler gfx_DropSplashRun
+0x0003911e gfx_DropSplashRun splash sprite follows the dropped row: y from A5-0x1e6, frame from table 0x39186 (cf counter &3), size grows with counter; clears itself when done
+0x00039162 gfx_DropSplash2Run second splash object copies y, sprite and size from the first one (A5-0x1fa..) and queues it
+0x000391be gfx_SpinObjInit provisional: init of a rotating 3D-part group: zeroes angles, builds N part objects (count at 0x3942c, 8-byte records at 0x3942e: x,y,sprite,flags) with handler gfx_SpinPartRun; parent handler gfx_SpinObjGrow
+0x00039244 gfx_SpinObjGrow parent spin object phase 1: counter obj+0x30 to 0x20, angles obj+0x24/+0x26 spin, height obj+0x16 from table, then switches to gfx_SpinObjShrink
+0x000392aa gfx_SpinObjShrink parent spin object phase 2: counter counts back down to 0, same angle update, then hides itself (clears bit 7)
+0x00039302 gfx_SpinPartRun child part of the spin group: rotates its offset (obj+0x16..0x1a) by the parent (ce660) angles using sin/cos tables 0x8f6/0xef6 and projects it to obj+0x1c..0x20

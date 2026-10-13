@@ -1,0 +1,3 @@
+0x00035a12 bogus_00035a12 data decoded as code (BCD/div garbage, 160 bytes between FUN_00035866 and FUN_00035ad2)
+0x00035ab2 bogus_00035ab2 data decoded as code (BCD/div garbage, 32 bytes)
+0x00038d9c bogus_00038d9c data decoded as code: 16-entry (sprite,size) table used by gfx_ConfettiInit; the handler code starts at 0x38ddc

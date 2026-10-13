@@ -1,0 +1,43 @@
+0x00033000 bogus_00033000 data decoded as code: 0x68-byte table of longwords at the start of the code region (no instructions); trap handlers begin at 0x33078
+0x00033506 cab_OutputDispatchNop cabinet output dispatch on cff30&3 through jump table 0x3351e where all four cases are rts (empty variant, never reaches any output)
+0x00033532 cab_OutputDispatch cabinet output dispatch: jump table 0x3354a indexed by cff30&3: 0 -> cab_DriveFeedbackOutput, 1 -> cab_UpdateLampBit1, 2 and 3 -> cab_ClearObjBit7
+0x0003354a cab_OutDispThunk0 bra.w thunk, table entry for cff30&3 == 0 (-> 0x3355c)
+0x0003354e cab_OutDispThunk1 bra.w thunk, table entry for cff30&3 == 1 (-> 0x3365e)
+0x00033552 cab_OutDispThunk2 bra.w thunk, table entry for cff30&3 == 2 (-> 0x336bc; entry 3 at 0x33556 is not a function start and goes to the same place)
+0x0003355c cab_DriveFeedbackOutput cabinet output case 0: writes byte cff2c; in race mode (ce09c == 0x14) picks a pattern byte from table 0x336c2 (0x33702 when cff24 > 0x80) indexed by car timers +0x54/+0x55/+0x2a, else falls to the steering/speed force code at 0x33742; outside race writes 0x78 (| ce0d2>>5 in modes 8..0x14)
+0x0003365e cab_UpdateLampBit1 cabinet output case 1: in race mode (ce09c == 0x14) sets cff2f bit 1 while any of the car counters +0x54(byte), +0x2a, +0x92, +0xaa is above 8, else clears it (always cleared outside race mode)
+0x000336bc cab_ClearObjBit7 cabinet output cases 2/3: bclr #7,(a5) then rts
+0x000336c2 bogus_000336c2 data decoded as code: byte pattern table for cab_DriveFeedbackOutput (0x60,xx pairs, 0x60 terminates and clears obj+0x3e)
+0x000336c4 bogus_000336c4 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336c6 bogus_000336c6 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336c8 bogus_000336c8 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336ca bogus_000336ca data decoded as code: inside the pattern byte table at 0x336c2
+0x00033724 bogus_00033724 data decoded as code: tail of the byte tables 0x336c2..0x33741 (second table at 0x33702 for cff24 > 0x80); real code starts at 0x33742 (steering/speed force output, branch target of cab_DriveFeedbackOutput) which has no function of its own
+0x00033780 cab_ForceFeedbackCont mid-routine continuation of the force output code that starts at 0x33742: writes steering magnitude car+0x8a and speed cea12 (max 0xc8) to the motor chip at A6, direction bits 5/6 in d0, result byte to cff2c
+0x00033828 cab_StoreOutputByte shared tail of the cabinet output code: move.b d0,cff2c then rts
+0x00033c54 obj_RotateToViewMid mid-entry of obj_RotateToView after the first axis rotation: shifts the products by 9 and starts the second rotation stage (angle A4+0x24); never called directly
+0x00033c8c obj_RotateToViewTail tail of obj_RotateToView: shifts the last two products by 9 and stores view-space z/x into obj+0x20 and obj+0x1c
+0x0003409c gfx_ComputeHorizonTail tail of gfx_ComputeHorizon (0x34072): >>9 of the sin/cos products, builds the horizon value from obj+0x1a/0x16 via the MAC regs and stores ce70c = cea3e - result
+0x0003453c car_PlayerCourseAndCamera mid-body of the player car update (branch target from car_UpdatePlayerDynamics at 0x3452e): course scroll cea00 (+cea14 carry), course index words cea02/04/06/08, steering angle cea18 and camera angles A4+0x24/0x26
+0x00034bb8 car_PickFrameAndAdvancePos tail of car_UpdateOrientationAndPosB: blink timer car+0x52, picks sprite frame car+0xcc, moves car x/z (+0x16/+0x18) by speed car+0x28 times sin/cos of heading and stores the velocity in A4+0x28..0x2e
+0x00035c7c car_LateralVelocityFromCurve tail of car_EaseSteerRoll: lateral velocity car+0x28 from road curvature (heading table b000 differences, car+0x24 speed, cea38), clamp +-0x5ff, stores push car+0x82, sets car+0x5c = 8 on direction change
+0x00035d54 car_FrameTaskScripted player-slot car task variant for cea38 > 4 (taken from car_FrameTaskGrid when cea2b bit 0 is clear): saves position, handles collision event bits car+0x53 (snd 0x85, timers 0x54/0x46), then continues in car_FrameTaskScriptedTimers
+0x00035dd4 car_FrameTaskScriptedTimers mid-body of car_FrameTaskScripted: wobble value from table 0x2794 into ceb50, decrements car timers +0x2a/+0x54/+0x46/+0x47/+0x5c/+0x5e/+0x92, engine and gear sounds, then ai_StepDrivingScript and car_UpdateScriptedDynamics
+0x00035f48 car_UpdateScriptedDynamics dynamics step for the scripted player-slot car, called after ai_StepDrivingScript from car_FrameTaskScripted; same shape as car_UpdatePlayerDynamics and car_UpdateAiDynamics (speed cea12 toward target, lap word car+0x3c, course scroll, camera angles)
+0x00036f20 spr_EffectRotateStage2 mid-body of spr_EffectUpdate: second rotation stage (>>9, store obj+0x1e, rotate by angle A4+0x24)
+0x00036f58 spr_EffectProjectX mid-body of spr_EffectUpdate: stores view-space obj+0x1c/0x20, skips the sprite when depth is not positive, else computes screen x obj+0x04 via the MAC regs (divisor 0x80)
+0x00036fa0 spr_EffectProjectYQueue mid-body of spr_EffectUpdate: screen y obj+0x06 = cea3e - projected y - size/32, then spr_QueueSprite
+0x00037054 spr_CarStatusOverlayUpdate handler of a per-car overlay sprite object (init code at 0x37040 sets sprite 0x87 and this handler): shown only while the car timers +0x2a/+0x5c/+0x92 are non-zero; copies the car screen position and size, picks a frame from table 0x3711e by cf812&6, for the player slot plays snd 0x81/0x87/0x83 each time cf812 bit 4 flips
+0x000373ba bogus_000373ba data decoded as code: table of 5 object init pointers (0x367fa, 0x36d88, 0x36e26, 0x37126, 0x37040) read by race_InitGridAssign to give each of the 12 cars its object chain
+0x000385ba cab_BlinkLampBit2 clears cff2f bit 2 and sets it again while cf813 bit 3 is clear (8-frame blink); called from course select and one more state
+0x0003997c sys_SelfTestRom boot self test: trap 7, ROM region CRC16 (table 0x399d4, expected words at 0x3e0) then RAM tests (table 0x399f6) via sys_RomCrc16 / sys_RamTestInvert, results in bytes cfeae+index (0 ok, 4 fail), flags cfea6/cfea8, trap 0
+0x00033996 snd_UpdateEngineVolume Engine sound level: ramps car+0xa6 toward car+0x8c (max +16/-4) when the car is crashed or cea35 bit 0 is set, else level from speed cea12 (clamp 4..0x3f, cached in cffca); queues the level as a sound command via snd_Queue
+0x00033bfa obj_RotateToView View-space transform of a trackside object: offsets obj+0x16/0x18/0x1a plus camera A4+0x1c/0x1e/0x20 rotated by sin/cos tables (0x8f6/0xef6) with camera angles A4+0x24/0x26 via MAC regs into obj+0x1c/0x1e/0x20; called from obj_PlaceOnTrack
+0x000343a4 car_UpdatePlayerDynamics Player car per-frame: speed cea12 toward target (acc table 0x2a54/0x2d54), lap word car+0x3c accumulate (speed/2), course scroll cea00/cea14, camera angles A4+0x24/0x26 from heading table ffffb000/ffffa000, crash/spin (car+0x92, 0x55, 0x45), launches snd_Queue; covers the whole player update including the part from 0x3453c
+0x0003879c course_BuildSlopeAngles Loop D7 points: slope angle = atan(height delta between consecutive course points (word +2 of 6-byte records) / 0xb0 step length) via math_AtanSearch, signed word stored in table at A4 (ffffa000)
+0x00039882 game_AddScoreBcd BCD add of cff68 (points just earned) into cff60 (current game score, cleared at race start 0x37cfe, saturates to 99999999), then raises cff64 (high score) to cff60 if lower; score feeds the stats max/min cfd38/cfd3c in bk_UpdateStatsChecksum
+0x00033702 bogus_00033702 data decoded as code: second pattern byte table (used instead of 0x336c2 when cff24 > 0x80)
+0x0003550c car_UpdateAiDynamics AI car speed/lap/steer-ease step called after ai_StepDrivingScript from the AI car task (jsr at 0x354fa); eases speed toward target, lap word car+0x3c, course scroll cea00/cea14, camera angles, calls car_UpdateTrackPosAndHeading
+0x00038bce gfx_ConfettiInit object handler set by the finish state (0x3826e): builds an object chain (header, two helpers, 64 gfx_ObjRunProjectile pieces falling with gravity +100 to y 0x380, start x/z from table 0x38c9c, sprite and size from table 0x38d9c, staggered start delay 0x20+2i), ends with task_RtsB
+0x0003906e gfx_RankRowDrop one of 8 stacked list rows (gfx_InitEightSprites) falling +0x14/frame to a stop y from table 0x3903e (rows 0x1e apart), then spawns a splash object at +0x200 (gfx_DropSplashInit) and bounces via gfx_RankRowBounce
+0x000391be gfx_SpinObjInit object handler set by the 30 second countdown state (0x38538, cf061 = 0x30): zeroes angles, builds N part objects (count at 0x3942c, 8-byte records x,z,sprite,flags) with handler gfx_SpinPartRun; parent handler gfx_SpinObjGrow

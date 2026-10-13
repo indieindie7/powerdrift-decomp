@@ -1,0 +1,9 @@
+0x00033000 bogus_00033000 data decoded as code: 0x68-byte table of longwords at the start of the code region (no instructions); trap handlers begin at 0x33078
+0x000336c2 bogus_000336c2 data decoded as code: byte pattern table for cab_DriveFeedbackOutput (0x60,xx pairs, 0x60 terminates and clears obj+0x3e)
+0x000336c4 bogus_000336c4 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336c6 bogus_000336c6 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336c8 bogus_000336c8 data decoded as code: inside the pattern byte table at 0x336c2
+0x000336ca bogus_000336ca data decoded as code: inside the pattern byte table at 0x336c2
+0x00033724 bogus_00033724 data decoded as code: tail of the byte tables 0x336c2..0x33741 (second table at 0x33702 for cff24 > 0x80); real code starts at 0x33742 (steering/speed force output, branch target of cab_DriveFeedbackOutput) which has no function of its own
+0x000373ba bogus_000373ba data decoded as code: table of 5 object init pointers (0x367fa, 0x36d88, 0x36e26, 0x37126, 0x37040) read by race_InitGridAssign to give each of the 12 cars its object chain
+0x00033702 bogus_00033702 data decoded as code: second pattern byte table (used instead of 0x336c2 when cff24 > 0x80)

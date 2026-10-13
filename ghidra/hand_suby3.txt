@@ -1,0 +1,34 @@
+0x00011f5e obj_HandlerRtsHudA empty object handler (4th object of task_InitSpawnList); 26 bytes of unreached data/code follow before 0x11f7a
+0x00011f7a obj_UpdateWheelLampA provisional: HUD lamp, queues sprite 0x6f/0x70/0x71 chosen by ceb48 bit 5 and sign of ceb4a (frame 0x8d2/0x8da) unless ceff0 bit 4; no stored pointer in dump
+0x00011fbe obj_HandlerRtsHudB empty object handler (5th object of task_InitSpawnList); 32 bytes of unreached data/code follow before 0x11fe0
+0x00011fe0 obj_UpdateWheelLampB provisional: HUD lamp, queues sprite 0x6d, or 0x6c/7 when ceb4a < 0 (by ceb48 bit 5), unless ceff0 bit 4; no stored pointer in dump
+0x00012018 obj_InitHudTimerAnim type 0x80 object at x 100, y -0x30, id 0x27, frame 0x642, timer obj+0x16 = 0x140; handler obj_UpdateHudTimerAnim
+0x00012044 obj_UpdateHudTimerAnim counts timer obj+0x16 down from 0x140, frame from table 0x120d6 indexed by timer>>4, queues sprite
+0x00012072 obj_InitHudBlinkSprite type 0x84 object at y 0x58, size 0x80, id 0x2f, frame 0xaea, timer 0x140; handler obj_UpdateHudBlinkSprite
+0x000120b0 obj_UpdateHudBlinkSprite for 0x140 frames queues the sprite only while cf812 bit 4 is set (blinking message)
+0x00012310 obj_InitRankMarker one of 12 per-car objects (index in obj+0x27) type 0x84, size 0x60, y -0x48; handler obj_UpdateRankMarker
+0x0001232a obj_UpdateRankMarker per-car rank marker: reads car (ce60c + index*0x1c0), sets priority/x/frame from car rank (+0x26) and sprite word +0xc2, frame from car table +0xd6 by crash/state flags; queues sprite
+0x000123d4 obj_InitFinishWatcher one of 12 per-car objects, type 0x84; handler obj_UpdateFinishWatcher
+0x000123e2 obj_UpdateFinishWatcher per-car: when car flags +0x32 bit 1 (finished) and rank <3, sets ce312 and cea36/cea37 flags, spawns three result sprite objects (handlers obj_InitFinishRankSprite etc.) and switches itself to obj_InitFinishRankSprite
+0x00012610 obj_InitFinishRankSprite finish rank sprite: id 0x29, frame from table 0x122b0 by rank, y = rank*0x20-0x10, x 0x20; handler obj_UpdateFinishRankSprite; rank 0 sets ce76c bit 0
+0x00012664 obj_UpdateFinishRankSprite queues the sprite unless ceff0 & 0xd4
+0x00012676 obj_InitFinishRankSpriteB twin sprite of the finish rank (x -0x20, priority 0xfe, same y); handler obj_UpdateFinishRankSpriteB
+0x000126a6 obj_UpdateFinishRankSpriteB queues the sprite unless ceff0 & 0xd4
+0x000126b8 obj_InitFinishRankSpriteC third finish-rank sprite (x -0x20, y rank*0x20-0x28); handler obj_UpdateFinishRankSpriteC
+0x000126e8 obj_UpdateFinishRankSpriteC alternates between two frames (obj+0x20/+0x22) by cf813 bit 3 (blink), queues the sprite unless ceff0 & 0xd4
+0x0001ae92 scene_SetupMenuIntroA setup-menu scene state 1: ce712 -= 0xc0 until 0x9c4, then counter ce71a counts down and sets camera angle ce608+0x24 = -0x60 and next state scene_SetupMenuIntroB; then runs the common 20-call menu object update list (same list as all following states)
+0x0001aee0 scene_SetupMenuIntroB setup-menu scene state 2: ce712 -= 0x60 until below 0x385 (set 900), ce71a = 0x3f, next state scene_SetupMenuPickTrack; common object update list
+0x0001af16 scene_SetupMenuPickTrack setup-menu scene state 3: picks table index ce0ce+0x80>>4 from 0x1ae72 into cea2a, advances angle ce70a by 0xc, computes camera path values ce726/ce750/ce746/ce74a/ce74e from cea2a, sets camera angle 0xff99, next state scene_SetupMenuCamMoveA
+0x0001b066 scene_SetupMenuCamMoveA setup-menu scene state 4: counts obj+0x2a down, ce712 -= table[ce746], ce714 += step until ce716 < 0, then scene_SetupMenuCamMoveB
+0x0001b0d4 scene_SetupMenuCamMoveB setup-menu scene state 5: same camera move loop as CamMoveA, then scene_SetupMenuCamMoveC
+0x0001b13e scene_SetupMenuCamMoveC provisional: setup-menu scene state 6, mid-function entry; sets ceb5c = 0x5a when obj+0x2a < 0x60, camera move, loads palette PTR 0x1cd14[cea2a] into fffff900 when ce712 < 0, next state scene_SetupMenuHold
+0x0001b158 scene_SetupMenuPaletteSwap setup-menu scene state: counts obj+0x2a, camera move, when ce712 < 0 loads palette 0x1cd14[cea2a] into fffff900 (32 longs), sets ce800 bit 0, next state scene_SetupMenuHold
+0x0001b1c2 scene_SetupMenuHold setup-menu scene state: ce71e eased down to 0x58, counts obj+0x2a down; below 10 sets ce764 = 0xff and goes to scene_SetupMenuHoldEnd
+0x0001b21e scene_SetupMenuHoldEnd setup-menu scene state: ce71e eased to 0x58, obj+0x2a down to 0, then scene_SetupMenuIdle
+0x0001b26c scene_SetupMenuIdle final setup-menu scene state (stays here): only the common menu object update list and exit check (ce09c > 8 resets all objects)
+0x0001b478 obj_UpdateOffsetSpriteEntry provisional: fragment before obj_UpdateOffsetSprite; copies x to prev, x = ce310-indexed value -0x8c, frame 0x402 unless both ce718/ce728 set
+0x0001b804 obj_UpdateMenuScenery updates the 8 menu scenery objects: objs 4 and 5 take position/frame from ce734.. and ce72c.. (flip bit from ce76a), the others from table PTR 0x1cc2c[cea2a] (x + ce750), then proj_ObjectToScreenMenu and priority tweaks
+0x0001bc44 obj_UpdateRacerRowSlide loop of 12 objects: while ce71a > 0 slide in via obj_UpdateScrollIn and move the selected one (ce310) +-2 in y, then proj_ObjectToScreenMenu, priority += 4
+0x0001c35e obj_InitQueueFiveFromTable1e23cB init 5 type 0x80 objects from table 1e23c (copy of obj_InitQueueFiveFromTable1e23c just before it) with handler obj_QueueHandler
+0x0001c9ce obj_InitMenuScenery first-frame init of the menu scenery objects (types 4 and 5 from ce734../ce72c.., others from table PTR 0x1cc2c[cea2a]); sets timer obj+0x2c, handler obj_UpdateMenuSceneryObj, or table 0x1cc40[cea2a] when ce09c > 10
+0x0001caca obj_UpdateMenuSceneryObj per-frame menu scenery object: proj_ObjectToScreenA5, priority 0xfd/0xff for obj 5 and 0xfe for obj 4, spr_QueueObjectLocked; switches handler to table 0x1cc40[cea2a] when ce09c > 10

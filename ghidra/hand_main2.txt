@@ -1,0 +1,22 @@
+0x00033996 snd_UpdateEngineVolume Engine sound level from speed cea12 (clamp 4..0x3f), steps car+0xa6 toward car+0x8c (max +16/-4), calls snd_Queue; provisional: exact channel
+0x00033bfa spr_RotateCornerPoints Rotates two 2D offset pairs by sin/cos tables (0x8f6/0xef6, angles car+0x24/0x26 of A4) into obj+0x1c..0x20 via MAC regs; provisional: purpose
+0x00033d1e spr_ProjectTracksideObj Per-object: eases lap diff (obj+0x3e vs D6) into obj+2 via table, projects to screen (obj+0x1c..0x20), sets scale/size obj+0xe/+1, appends 16-byte entry to sprite list (cfe08, count cfcf0 max 0x17f) with lock ceb43
+0x00033f6a obj_UpdateTracksideVisible Walks 32 slot chain (ce624): visibility mask from camera heading (ce608+0x26 >>6) vs ce75e, sets/clears bit7, picks sprite words obj+8, calls obj_QueueTracksideSprite
+0x00033fe4 obj_QueueTracksideSprite Sets obj+6 from horizon ce70c, angle diff to camera (obj+0x2c vs A4+0x26, wrapped 0x3ff) into obj+4 (x1.5 if type 1), appends 16-byte entry to sprite list cfe08/cfcf0
+0x00034072 gfx_ComputeHorizon Camera sin/cos of pitch (A5+0x24) -> MAC regs; scroll X/Y regs, horizon line ce70c = cea3e - result
+0x000343a4 car_UpdatePlayerDynamics Player car per-frame: speed cea12 toward target (acc table 0x2a54/0x2d54), lap word car+0x3c accumulate (speed/2), course scroll cea00/cea14, camera angles A4+0x24/0x26 from heading table ffffb000/ffffa000, crash/spin (car+0x92, 0x55, 0x45), launches snd_Queue; provisional: name covers whole player update
+0x00034c6e car_UpdateSteeringAndSlip Lateral physics: curve push car+0x30 from lead car (car+0x6a), clamp 0x300, steer ease car+0x86/0x88, drift/skid flags car+0x5c/0x5e, lateral speed car+0x28 clamp +-0x5ff
+0x00036718 race_InitGridAssign Marks 12 cars (stride 5 slots) active, clears index, builds shuffled start-grid permutation cea50 (0..11 swapped 12x with sys_Random), puts player car ce310 at slot cea44
+0x000372bc ai_ScriptCommand Driving-script command (op = word at cursor ceb2a +2 &7; cursor car+0x2c += 0x10): 0 set lap target/speed, 1 lane/steer params, 2..5 set/clear flags car+0x44 bit0/1, 6 brake flag car+0x91 (and snd if slow), 7 clear brake
+0x000373ce race_InitRankList Builds ce8e0 car pointer array, bubble sorts by lap word car+0x3e desc, writes rank car+0x26/0x42 and circular prev/next links car+0x6a..0x76 plus table ce910
+0x00038736 course_BuildSlopeTables Course precompute: two calls to course_BuildAngleDeltaA then cea1c = first slope entry (ffffa000)
+0x00038768 course_BuildHeadingTables Course precompute: two calls to course_BuildAngleDeltaB then cea18 = ceb46 = first heading entry (ffffb000)
+0x0003879c course_BuildAngleDeltaA Loop D7 points: angle of one-axis delta between consecutive course points (6-byte records) via math_AtanSearch, stores signed word to table at A4; provisional: axis
+0x000387d2 course_BuildAngleDeltaB Loop D7 points: atan of (dx,dz) between course points with octant fix-up (table 0x38820), stores heading words at A4
+0x00038828 math_AtanSearch Divides via MAC regs (+0x4000) then linear searches 128-entry atan table at 0x38852 for angle index
+0x00038954 sys_TickBcdCountdown BCD countdown: ce64 subtick reload cf062, decrement BCD cf061; returns 0 when reaches 0 else -1
+0x00039882 game_AddBcd32 4-byte packed BCD add cff6c into cff64 (saturates to 99999999), keeps cff64 >= cff60 (high-score style); provisional: which score
+0x00039940 math_BcdToBinary32 Converts 8-digit BCD (two math_BcdToBinary16 passes) to binary: hi*10000+lo
+0x0003995c math_BcdToBinary16 Converts 4 BCD digits in D0.w to binary (accumulate x10)
+0x00039a08 sys_RomCrc16 CRC16 (poly 0x8810 shift-right) over every other byte of ROM region (len D7), toggles watchdog 100008 bit5 each step; self-test
+0x00039a28 sys_RamTestInvert RAM test: invert/verify every other byte of region (count D7), toggles watchdog; returns 4 on fail else 0
