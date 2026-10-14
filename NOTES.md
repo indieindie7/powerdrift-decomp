@@ -104,6 +104,7 @@ Research/modding only, non-commercial. No leaked source. User goal (10-13): "let
 
 ## Public repo (10-13)
 - PUBLISHED github.com/indieindie7/powerdrift-decomp, first commit 85ea466 (notes, hand/bogus lists, scripts, tools; no ROM data; initials list removed from comments).
+- 10-13 second commit 0dd1446: globals_<cpu>.txt + types_<cpu>.txt, pdglobs/pdglobmerge/satfind tools, gl_prompt (paths made relative), README steps 4 + Saturn note.
 
 ## Saturn Sega Ages port (10-13, recon)
 - Disc: Downloads/Power-Drift_SEGA-Saturn_JA.zip -> saturn/zip (10 tracks), data track extracted with Scorcher tools/isoextract.py
@@ -123,3 +124,40 @@ Research/modding only, non-commercial. No leaked source. User goal (10-13): "let
 - Backup ghidra/PowerDrift.rep.bak_types. CommitParams apply: main 171, subx 23 (2 failed), suby 411. ExportSigs -> ghidra/types_<cpu>.txt (199/25/497 fn, 0 FUN_).
 - Re-dump main: 0 DAT_000c refs left (1541 sh_ uses).
 - suby calls into 0x1b5ec and 0x1beb2 are secondary entry points inside obj_InitCarSelect 0x1b5e2 and its neighbour (code shared by fall-through); left as is.
+
+## Saturn program + course file layout (10-13)
+- Ghidra: /sat00000.bin in the PowerDrift project (SH-2, BinaryLoader base 0x06004000, FindSh2FunctionsMem) -> 866 fn; ManxTT tools/srptrs.py
+  (base 06004000) -> ghidra/ptrcode_sat.txt 175 code pointers, CreateAt.java (copied from Amok) with analysis -> **1049 functions**, second round 0 more.
+  ghidra/funcinfo_sat.tsv (1049 fn, 2621 calls, 416 string refs). Code ends at 0x0603a3xx; the rest of the 899008-byte file (to 0x060e1840) is data.
+- tools/satcrs.py main.bin saturn/cd: every CRS/ADV sub-block matched to its arcade course-table entry. CRS_A = entries 0-5, B = 6-11, C = 12-16 + bonus 5,
+  D = 18-22 + bonus 11, E = 24-28 + bonus 5; ADV_* = copies of single CRS sub-blocks (A2=1, B1=6, B2=7, B3=8, C2=13, C3=14, D1=18, E1=24, E2=25, E4=27).
+  CRS_N = bonus 5 + bonus 11 + 3 sub-blocks whose circuit is not an arcade one (CRS_N +0x316a0, +0x424f0, +0x5aa90): new or edited circuits, not checked.
+- Sub-block layout (offsets from sub-block start; header = 12 BE words):
+  w0 0x18 = points offset; w1 = arcade rec+6 word (0x0028 for entry 0); w2..w4 small values (00ff = none?); points 0x18..0x3018 (identical to arcade);
+  w5 0x3018 = trackside object runs (arcade rec+8 block, same 16-byte entries; end word ffff became 5fff in entry 0);
+  w6 0x3038.. = Saturn-only block (0xbd2 bytes in CRS_A 0, 10-byte-ish records `00a7 e41c 0000 d972 0400 ...`; not decoded);
+  w7 = object set (arcade rec+0x2a: 32 records, re-packed to 12 bytes, sprite words replaced by Saturn indexes, 0x180 bytes);
+  w8 = AI driving script (arcade rec+0x20, same entries without the 4 zero pad bytes: 12-byte entries);
+  w9 = 0x200-byte word table (52c7 ... in CRS_A 0; unknown); w10 = mode word (ffff / 0000 / 0402 = the arcade 0x402 check at 0x33a62);
+  w11 = end of the track tables; after it come RGB555 colour data and (probably) graphics to the next sub-block.
+
+## Saturn naming round 1 (10-13, user: "please continue until finished")
+- CsDumpAll -> ghidra/decomp_sat.c (1049 fn, 48019 lines). ManxTT tools/slice.py -> ghidra/naming/s1..s6.c (129/67/161/245/294/152 fn).
+  Prompt ghidra/naming/n1_prompt_sat.txt; 6 Sonnet agents -> naming/h1..h6.txt -> ghidra/hand_sat.txt.
+
+## CRS_N new circuits (10-13)
+- tools/satnew.py main.bin saturn/cd/CRS_N.DAT [png]: the 3 non-arcade CRS_N circuits (+0x316a0, +0x424f0, +0x5aa90) share **0 points** with
+  any arcade circuit (incl. the unused 0x40000-block ones); nearest shapes by mean xz distance are 0x58000 / 0x04232 / 0x22eca (4.6k-7.2k apart) = unrelated.
+  So they are 3 brand-new circuits built for the Saturn port (the EXTRA / NEW COURSE mode, file CRS_N.DAT). Each crosses itself (bridge over its own road);
+  heights 0..1400/1500 (arcade-like). Same sub-block format (w10 = 0402 for +0x316a0). Render renders/crs_n_new.png (local only).
+- Round 1 DONE: naming/h1..h6 (129/67/161/245/294/152) -> ghidra/hand_sat.txt 1049 lines (0x06039e2c = switch case of 0x06038f58, named by hand;
+  dup gfs_StartTransfer -> _2 at 0x06028e00), 460 provisional. Backup naming/hand_sat_r1.bak. Amok ApplyNames: 1049 named; funcinfo + decomp_sat.c re-dumped (0 FUN_).
+- Round 2: tools/provctx.py (ManxTT copy, base 'sat' = 0x06004000, image saturn/sat00000.bin) on naming/prov_list.txt (470 = provisional + _N)
+  -> naming/r2_1..8.txt; prompt naming/prompt_r2.txt; 8 Sonnet agents -> naming/v2_1..8.txt; apply tools/srprovapply.py ghidra/hand_sat.txt naming/v2_*.txt.
+- Round 2 result: v2_1..8 = CONFIRM 261, RENAME 194, UNSURE 15 (srprovapply.py patched to also rename `_N` names). Notable: smpc_WriteCmd* -> sndcmd_*
+  (sound-RAM mailbox), sh2_Get/SetInterruptMask. Backup naming/hand_sat_r2.bak.
+- Round 3 (by hand): the last 14 unclear ones got behaviour names, comment "(behaviour name, purpose unclear)" (e.g. obj_UpdateType83CarPart,
+  gfs_ReadBufferPair, sys_SyscallNoArgs, boot_ReadScrambledTableA/B); 0x06016308 = menu_CallCursorBlinkOnce.
+- **Saturn naming DONE (10-13):** hand_sat.txt 1049 lines, 0 provisional, unique names. ApplyNames 1049; re-export funcinfo_sat.tsv + decomp_sat.c:
+  1049 fn, 0 FUN_, 0 diffs vs hand file. Prefixes: obj 128, gfs 105, sgl 80, cdc 67, smpc 65, sys 50, cdfs 39, objset 38, car 36, sndcmd 34, vdp2 32, xfer 30.
+  Game logic: course_LoadHeaderPointers 0x0600b7a8, race_ComputeCarRanks 0x0600da48, ai_UpdateCar 0x06011ca4, road_PlotTrackSegmentByType 0x06015c14.

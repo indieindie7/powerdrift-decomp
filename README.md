@@ -6,7 +6,7 @@ Hand-named function maps, Ghidra scripts and working notes for the arcade game *
 backup RAM, ROM/RAM test). Same method as [cybersled-decomp](https://github.com/indieindie7/cybersled-decomp)
 and [scorcher-decomp](https://github.com/indieindie7/scorcher-decomp). Non-commercial, done for study and preservation.
 
-All 721 functions are hand-named (main 199, suby 497, subx 25): no `FUN_` and no provisional names left.
+All 721 arcade functions are hand-named (main 199, suby 497, subx 25), and all 1049 functions of the Saturn port: no `FUN_` and no provisional names left.
 
 ## How the game stores circuits
 
@@ -46,4 +46,21 @@ output and no Ghidra project database (which embeds the binaries). You need your
    order: `hand_<cpu>.txt`, `2`, `3`, `_a`, `_b`, then `_rev` last (later files rename earlier entries).
 4. Apply `globals_<cpu>.txt` with amok-decomp's `ApplyGlobals.java`, then its `CommitParams.java apply`.
 
-The Saturn Sega Ages port (1998) stores the same circuits byte for byte; see `NOTES.md` "Saturn Sega Ages port" and `tools/satfind.py`.
+## Saturn Sega Ages port (1998)
+
+The main program (CD file `00000`, SH-2, loaded at 0x06004000) is fully hand-named too: **1049 functions**,
+no `FUN_` and no provisional names (`ghidra/hand_sat.txt`, same line format; apply with amok-decomp's `ApplyNames.java`).
+Biggest groups: game objects `obj`/`objset`, the CD file layer `gfs`/`cdc`/`cdfs`, Sega SGL graphics `sgl`, SMPC/peripherals,
+the sound-RAM command mailbox `sndcmd`, cars `car`, AI `ai`, road drawing `road`.
+
+How the Saturn stores circuits: the arcade circuits sit in the program image byte for byte (`tools/satfind.py`), and the
+course files `CRS_A..E.DAT` / `CRS_N.DAT` hold sub-blocks of a 12-word header, the same 2048 `(x, y, z)` points, then the
+trackside runs, object set, AI script and colour data (`NOTES.md` "Saturn program + course file layout", `tools/satcrs.py`).
+
+`CRS_N.DAT` (EXTRA / NEW COURSE) holds **3 circuits that are not in the arcade game at all**: they share no point with any
+arcade circuit, and each one crosses over itself. `tools/satnew.py` compares them with every arcade circuit
+(`NOTES.md` "CRS_N new circuits").
+
+Naming method: Ghidra decompile split into slices (`tools/slice.py`), one Sonnet agent per slice with
+`ghidra/naming/n1_prompt_sat.txt`, then a review round over every provisional name with context from `tools/provctx.py`
+and `ghidra/naming/prompt_r2.txt` (applied by `tools/srprovapply.py`), then the last 14 by hand.
