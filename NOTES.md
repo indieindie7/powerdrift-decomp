@@ -5,7 +5,7 @@ Research/modding only, non-commercial. No leaked source. User goal (10-13): "let
 ## Sources
 - Arcade: user's download `Downloads/Power-Drift_Arcade_EN.zip` -> inner MAME set `arcade/zip/pdrift.zip` -> `arcade/rom/` (53 chips).
 - Saturn: `Downloads/Power-Drift_SEGA-Saturn_JA.zip` (Sega Ages, 10 tracks bin/cue), not unpacked yet.
-- Sega Rally (Saturn US + PC) zips are in the local archive (not started).
+- Sega Rally (Saturn US + PC) zips are in H:\Downloads-archive (not started).
 - No prior RE write-up of the track format found on the web (10-13).
 
 ## Layout
@@ -161,3 +161,4 @@ Research/modding only, non-commercial. No leaked source. User goal (10-13): "let
 - **Saturn naming DONE (10-13):** hand_sat.txt 1049 lines, 0 provisional, unique names. ApplyNames 1049; re-export funcinfo_sat.tsv + decomp_sat.c:
   1049 fn, 0 FUN_, 0 diffs vs hand file. Prefixes: obj 128, gfs 105, sgl 80, cdc 67, smpc 65, sys 50, cdfs 39, objset 38, car 36, sndcmd 34, vdp2 32, xfer 30.
   Game logic: course_LoadHeaderPointers 0x0600b7a8, race_ComputeCarRanks 0x0600da48, ai_UpdateCar 0x06011ca4, road_PlotTrackSegmentByType 0x06015c14.
+- Repo updated 10-13: powerdrift-decomp c06cc54 (hand_sat.txt, naming prompts, satcrs/satnew/provctx/srprovapply/slice, README Saturn section).
