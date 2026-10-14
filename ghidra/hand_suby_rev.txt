@@ -35,7 +35,7 @@
 0x00016118 math_BinToBcd32 two BCD-nibble conversions then /10000 via hardware divider at A6
 0x00016134 math_BinToBcdLoop divides D0w by 10 four times via hardware divider, collecting BCD nibbles
 0x00016b88 hs_DrawRankClassColumn per-row class/medal sprites from entry bytes +0xe..+0x12
-0x00016ec8 hs_MatchInitialsMessage compares 3-char initials against list SEX KEY TKG GAK OKA REE NAK AKI MAT SAD HI; a hit sets ce878 to the message index (used by hs_DrawMessageText message table), +1 if ce076 bit5
+0x00016ec8 hs_MatchInitialsMessage compares 3-char initials against a built-in list of 11 initials; a hit sets ce878 to the message index (used by hs_DrawMessageText message table), +1 if ce076 bit5
 0x0001737e hs_DrawArrowHint draws arrow sprite 8ba/8c2/8ca depending on distance of cursor from 0x10
 0x00011f7a obj_UpdateWheelLampA HUD lamp, queues sprite 0x6f/0x70/0x71 chosen by ceb48 bit 5 and sign of ceb4a (frame 0x8d2/0x8da) unless ceff0 bit 4; no stored pointer in dump
 0x00011fe0 obj_UpdateWheelLampB HUD lamp, queues sprite 0x6d, or 0x6c/7 when ceb4a < 0 (by ceb48 bit 5), unless ceff0 bit 4; no stored pointer in dump
