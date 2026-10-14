@@ -73,7 +73,7 @@
 0x00016cdc hs_FindRankSlot scan 20 entries (stride 20) for first score below new score cff60, store rank in +6
 0x00016cfe hs_InsertRankEntry shift lower entries down and write new entry: score, time, car, stage, flags
 0x00016d66 hs_ClampNameCursor set +2 to rank-2 clamped to 0..15
-0x00016ec8 hs_CheckBlockedInitials provisional: compares 3-char initials against a built-in list, sets ce878
+0x00016ec8 hs_CheckBlockedInitials provisional: compares 3-char initials against list SEX KEY TKG GAK OKA REE ... DHI, sets ce878
 0x0001730c hs_SteeringToLetterIndex map steering value ce0ce+0x10 (0..0x1f) to letter column and row highlight on 4 child objects
 0x0001737e hs_DrawArrowHint provisional: draws arrow sprite 8ba/8c2/8ca depending on distance of cursor from 0x10
 0x000174a2 hs_DrawNameEntryLetters store chosen letter into entry and draw the 3 current initials with cursor

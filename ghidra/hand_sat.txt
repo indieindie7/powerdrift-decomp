@@ -679,7 +679,7 @@
 0x0602a300 func mem_CopyWordsStrided hand copies words with separate dst and src strides, then copies remaining bytes via callee
 0x0602a340 func stub_0602a340 hand stub returning 0
 0x0602a34c func xfer_CheckMethodReady hand picks copy method by transfer mode (SCU/CPU by address range), calls its ready routine from 12-byte method table
-0x0602a3b4 func xfer_CopyNextChunk hand copies next chunk from buffer to destination using method table start routine or custom callback for mode 4
+0x0602a3b4 func gfs_CopyBlockStep hand copies next chunk from buffer to destination using method table start routine or custom callback for mode 4 (bsim audit 10-14: was xfer_CopyNextChunk)
 0x0602a484 func xfer_IsMethodDone hand dispatches done-check by transfer mode via method table entry plus 8, mode 4 tests top bit
 0x0602a4ec func mem_CopyBytesFromWord hand copies count (<=4) bytes out of a word read from pointer into byte buffer
 0x0602a514 func xfer_GetPlus8 hand returns field at offset 8 of structure
@@ -696,13 +696,13 @@
 0x0602a6bc func stub_0602a6bc hand stub returning 1
 0x0602a6c8 func xfer_OpenStream hand initialises stream state, allocates two resources via callees, sets params, returns 1 on success 0 on failure
 0x0602a7d4 func xfer_CloseStream hand releases the two stream resources stored at plus 4 and plus 0xc
-0x0602a7fc func xfer_ReadStreamBytes hand reads bytes from stream via callee, adjusts remaining count from buffer info, returns bytes read
+0x0602a7fc func gfs_CdGetTransferSize hand reads bytes from stream via callee, adjusts remaining count from buffer info, returns bytes read (bsim audit 10-14: was xfer_ReadStreamBytes)
 0x0602a8a0 func stub_0602a8a0 hand stub returning 0
 0x0602a910 func xfer_ResetStream hand resets stream at plus 4 with 0 and -1 then calls follow-up callee
 0x0602a938 func xfer_GetPosition hand returns sum of fields at offsets 0x20 and 0x24
 0x0602a948 func xfer_QueryAvailable hand queries available bytes from stream, returns -1 on error, clamps negative to 0
-0x0602a994 func xfer_SeekStream hand seeks stream to absolute or relative offset, updates cached window start and fill, returns resulting position
-0x0602aa8c func xfer_ReserveReadRequest hand fills single global request slot with source, size and count from stream query when free; returns slot or 0
+0x0602a994 func gfs_CdSeek hand seeks stream to absolute or relative offset, updates cached window start and fill, returns resulting position (bsim audit 10-14: was xfer_SeekStream)
+0x0602aa8c func gfs_CdPrepareTransfer hand fills single global request slot with source, size and count from stream query when free; returns slot or 0 (bsim audit 10-14: was xfer_ReserveReadRequest)
 0x0602ab64 func xfer_StartRequestIo hand starts I/O for stream request using stream fields and checks error, returns 1 on started else 0
 0x0602ab9c func stub_0602ab9c hand stub returning 0
 0x0602aba8 func xfer_CompleteRequest hand finishes request: calls callee with stored size or override, clears request busy flag
@@ -745,10 +745,10 @@
 0x0602ba68 func cdfs_SetTimeoutCounter hand stores timeout counter at offset 0x3c of global state
 0x0602ba7c func cdfs_RunUntilNotBusy hand sets flag, loops callee while it returns 1, clears flag, returns result
 0x0602bab8 func cdfs_ProcessCommandQueue hand steps each queued 16-byte command through states 1-3 (select, connect, move), compacts queue, returns count left
-0x0602bc60 func cdfs_StepLinkRequest hand steps link request state 1 then 2 with count increment, clears on HIRQ bit 0x40
+0x0602bc60 func cdc_StepSetDeviceConnection hand steps link request state 1 then 2 with count increment, clears on HIRQ bit 0x40 (bsim audit 10-14: was cdfs_StepLinkRequest)
 0x0602bcec func cdfs_StepReadRequest hand steps read request state 1 (query size, clamp) then 2 (start), returning 0 when done
-0x0602be3c func cdfs_StepAbortRequest hand two-state step: issue abort command then wait for completion, returns 1 busy or 0 done
-0x0602bedc func cdfs_StepSeekRequest hand multi-state seek/read request step (states 1-4) with HIRQ checks, on failure sets error -9 and clears state
+0x0602be3c func cdc_StepGetSectorData hand two-state step: issue abort command then wait for completion, returns 1 busy or 0 done (bsim audit 10-14: was cdfs_StepAbortRequest)
+0x0602bedc func cdc_StepDeleteSectorData hand multi-state seek/read request step (states 1-4) with HIRQ checks, on failure sets error -9 and clears state (bsim audit 10-14: was cdfs_StepSeekRequest)
 0x0602c00c func cdfs_StepPlayRequest hand five-state request step: set sector length, send command, wait HIRQ bit, finish, clears state when done
 0x0602c170 func cdfs_StepDirRequest hand state machine for directory request: checks buffer range, re-seeks, copies info, sets -11 on failure
 0x0602c36c func cdfs_ProcessConnectionQueue hand drains queue of 12-byte records setting CD device connections, compacts queue, returns remaining count
@@ -814,11 +814,11 @@
 0x0602d3ee func stub_0602d3ee hand empty stub that only returns
 0x0602d3f0 func stub_0602d3f0 hand empty stub that only returns
 0x0602d3f2 func stub_0602d3f2 hand empty stub that only returns
-0x0602d408 func crt_divsi3 hand libgcc signed 32-bit divide unrolled with div1 steps; returns quotient, zero on zero divisor
+0x0602d408 func __divsi3 hand libgcc signed 32-bit divide unrolled with div1 steps; returns quotient, zero on zero divisor (bsim audit 10-14: was crt_divsi3)
 0x0602d4a8 func crt_ashlsi3 hand libgcc shift left by variable count via switch fallthrough of shifts by 1, 2, 8, 16
-0x0602d538 func crt_ashrsi3 hand libgcc arithmetic shift right by variable count via switch fallthrough; sign fill when 32 or more
+0x0602d538 func __ashrsi3 hand libgcc arithmetic shift right by variable count via switch fallthrough; sign fill when 32 or more (bsim audit 10-14: was crt_ashrsi3)
 0x0602d5bc func crt_lshrsi3 hand libgcc logical shift right by variable count via switch fallthrough of shifts by 1, 2, 8, 16
-0x0602d64c func crt_udivsi3 hand libgcc unsigned 32-bit divide unrolled with div1 steps returning quotient
+0x0602d64c func __udivsi3 hand libgcc unsigned 32-bit divide unrolled with div1 steps returning quotient (bsim audit 10-14: was crt_udivsi3)
 0x0602d6d8 func strcpy hand copies NUL-terminated string from source to destination, returns destination
 0x0602d700 func memset hand fills bytes with value, aligns to 4 then stores two words per loop
 0x0602d754 func memcpy hand copies bytes, word-copies with alignment cases for destination offset, returns destination

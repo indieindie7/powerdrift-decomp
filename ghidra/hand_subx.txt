@@ -14,3 +14,4 @@
 0x0000e2c6 test_RomRamCheck once (cfea7 bit7): ROM CRCs against the table at 0xe31e and RAM tests from the table at 0xe330; result bytes 0/4; sets cfea9 bit7
 0x0000e362 test_RomCrc crc16 over one byte lane of a ROM pair (stride 4)
 0x0000e37c test_RamBytes invert/compare each RAM byte; returns 4 on a bad byte, 0 when all pass
+0xe2c6 func sys_SelfTestRom hand bsim audit 10-14: was test_RomRamCheck

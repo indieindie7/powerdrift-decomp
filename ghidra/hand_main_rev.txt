@@ -41,3 +41,4 @@
 0x00038bce gfx_ConfettiInit object handler set by the finish state (0x3826e): builds an object chain (header, two helpers, 64 gfx_ObjRunProjectile pieces falling with gravity +100 to y 0x380, start x/z from table 0x38c9c, sprite and size from table 0x38d9c, staggered start delay 0x20+2i), ends with task_RtsB
 0x0003906e gfx_RankRowDrop one of 8 stacked list rows (gfx_InitEightSprites) falling +0x14/frame to a stop y from table 0x3903e (rows 0x1e apart), then spawns a splash object at +0x200 (gfx_DropSplashInit) and bounces via gfx_RankRowBounce
 0x000391be gfx_SpinObjInit object handler set by the 30 second countdown state (0x38538, cf061 = 0x30): zeroes angles, builds N part objects (count at 0x3942c, 8-byte records x,z,sprite,flags) with handler gfx_SpinPartRun; parent handler gfx_SpinObjGrow
+0x398b8 func stats_UpdateWithCrc hand bsim audit 10-14: was bk_UpdateStatsChecksum
